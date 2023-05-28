@@ -23,6 +23,9 @@ body {
 }
 
 h1 {
-  font-size: 2.2rem;
+  @apply text-4xl;
 }
 
+section {
+  @apply m-2
+}
