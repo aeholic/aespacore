@@ -2,6 +2,7 @@
 
 import type { Metadata } from 'next'
 import Project from '§/lib/utils'
+import dayjs from 'dayjs'
 
 export const metadata: Metadata = { 
   title: `${Project} - Event Schedule`,
@@ -22,27 +23,8 @@ export default function EventSchedulePage() : JSX.Element {
             <span className="confirmed">C</span>
             <span className="remaining">⌛</span>
           </div>
-          <div className="schedule">
-            <span className="date">Sat, June 10</span>
-            <span className="time">07:30</span>
-            <span className="event">The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA</span>
-            <span className="remaining">0d 07h 30m 58s</span>
-            <span className="confirmed">C</span>
-            <span className="remaining">⌛</span>
-          </div>
-          <div className="schedule">
-            <span className="date">Sat, June 10</span>
-            <span className="time">07:30</span>
-            <span className="event">The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA</span>
-            <span className="remaining">0d 07h 30m 58s</span>
-            <span className="confirmed">C</span>
-            <span className="remaining">⌛</span>
-          </div>
         </div>
       </article>
     </section>
   )
 }
-
-
-// [Jun 10 | 07:30] The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA
