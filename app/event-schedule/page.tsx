@@ -2,7 +2,6 @@
 
 import type { Metadata } from 'next'
 import Project from '§/lib/utils'
-import dayjs from 'dayjs'
 
 export const metadata: Metadata = { 
   title: `${Project} - Event Schedule`,

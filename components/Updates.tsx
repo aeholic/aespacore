@@ -12,7 +12,7 @@ const Updates = () : JSX.Element => {
       </article>
       <article>
         <h3>Fancams</h3>
-        <p>Almost every tweet I see have different numbers when it gets updated because not all are fancams. To prevent that, I made this statistic based on criteria, see <Link href="#">here</Link>.</p>
+        <p>Almost every tweet I see have different numbers when it gets updated because not all are fancams. To prevent that, I made this statistic based on criteria, see <Link className="link" href="#">here</Link>.</p>
       </article>
       <article>
         <h3>Brand Reputation</h3>

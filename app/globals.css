@@ -24,22 +24,25 @@
 
 @layer base {
 	a {
-		@apply no-underline font-bold hover:link-hover;
-		color: var(--secondary);
+		@apply no-underline font-bold;
 	}
 	h2, h3 { @apply text-2xl font-semibold mt-3 mb-3 text-white }
 	h3 { @apply text-lg m-0 }
 }
 
+@layer utilities {
+	.hoverlink { @apply text-black bg-[var(--secondary)] }
+}
+
 @layer components {
-	.link-hover { @apply text-white underline }
+	.link { @apply hover:hoverlink }
 }
 
 html, body { @apply max-w-[100vw] overflow-x-hidden }
 
 body {
   @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat;
-	background-image: url('../public/bg.jpg');
+	/* background-image: url('../public/bg.jpg'); */
   /* background: rgb(var(--background-end-rgb)); */
 	/* font-family: var(--font); */
   color: rgb(var(--foreground-rgb));

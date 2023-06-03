@@ -1,13 +1,12 @@
 // MAIN LAYOUT
 
-import './globals.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import logo from '§/public/aespa_logo.png'
-import { Noto_Sans_KR } from 'next/font/google'
-import { Oswald } from 'next/font/google'
+import { Noto_Sans_KR, Oswald } from 'next/font/google'
 import type { Metadata } from 'next'
 import type { Children } from '§/types'
+import './globals.css'
 import KoreaTime from '§/components/KoreaTime'
 import Project from '§/lib/utils'
 
@@ -16,6 +15,7 @@ const osw = Oswald({
 	style: 'normal',
 	weight: ['200', '400', '500', '700']
 })
+
 const noto = Noto_Sans_KR({
   subsets: ['latin'],
   weight: ['100', '400', '500', '700'],
@@ -23,7 +23,7 @@ const noto = Noto_Sans_KR({
 
 export const metadata: Metadata = { 
   title: Project,
-  description: 'Your #1 Source for aespa statistics'
+  description: 'Your #1 Source for aespa statistics',	
 }
 
 export default function RootLayout({ children }: Children) {
