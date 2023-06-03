@@ -31,11 +31,18 @@
 }
 
 @layer utilities {
-	.hoverlink { @apply text-black bg-[var(--secondary)] }
+	.hoverlink { 
+		@apply text-black bg-[var(--secondary)];
+		height: 24px;
+		transition: all 0.2s ease-in-out;
+	}
 }
 
 @layer components {
-	.link { @apply hover:hoverlink }
+	.link { 
+		@apply h-0 text-[var(--secondary)] inline-block hover:hoverlink;
+		transition: all 0.2s ease-in-out;
+	}
 }
 
 html, body { @apply max-w-[100vw] overflow-x-hidden }
@@ -84,12 +91,12 @@ main {
   aside { @apply bg-white rounded-md }
 }
 
-.schedule {
+.event {
 	span {
 		@apply border rounded-md px-2;
 		&.date { @apply bg-slate-900 }
 		&.time { @apply bg-slate-800 }
-		&.event { @apply bg-slate-700 font-semibold }
+		&.eventname { @apply bg-slate-700 font-semibold }
 		&.remaining { @apply bg-slate-900 }
 		&.confirmed { @apply bg-green-800 }
 	}

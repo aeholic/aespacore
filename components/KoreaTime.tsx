@@ -21,7 +21,7 @@ const KoreaTime: React.FC = (): JSX.Element => {
 
   useEffect(() => {
 
-    const krTime = () => dayjs().utcOffset(540).format('YYYY/MM/DD hh:mm:ss')
+    const krTime = () => dayjs().utcOffset(540).format('YYYY/MM/DD HH:mm:ss')
 
     setInterval(() => setCurrentTime(krTime()), 1000)
     setInterval(() => {
