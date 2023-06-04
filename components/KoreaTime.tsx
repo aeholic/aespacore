@@ -2,41 +2,30 @@
 
 "use client"
 
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import duration from 'dayjs/plugin/duration'
 import { useState, useEffect } from 'react'
+import EventTimer from '§/lib/EventTimer'
 
-dayjs.extend(utc)
-dayjs.extend(duration)
+const time = new EventTimer({
+  targetTime: '2023/06/04 22:00:00',
+  countdown: '0d 0h 0m 0s',
+  UTCtimezone: 540,
+  format: 'YYYY/MM/DD HH:mm:ss',
+  action: 'DING DONG!'
+})
 
 const KoreaTime: React.FC = (): JSX.Element => {
-  
+
   const
-    targetTime: string = '2023-06-03 09:24:00',
-    remaining: string = '0d 0h 0m 0s', 
-    kst: string = '0000/00/00 00:00:00',
-    [currentTime, setCurrentTime] = useState<string>(kst),
-    [countdown, setCountdown] = useState<string>(remaining)
+    initCountdown: string = '0d 0h 0m 0s', 
+    initTime: string = '0000/00/00 00:00:00',
+    [currentTime, setCurrentTime] = useState<string>(initTime),
+    [countdown, setCountdown] = useState<string>(initCountdown)
 
   useEffect(() => {
-
-    const krTime = () => dayjs().utcOffset(540).format('YYYY/MM/DD HH:mm:ss')
-
-    setInterval(() => setCurrentTime(krTime()), 1000)
+    setInterval(() => setCurrentTime(time.krTime()), 1000)
     setInterval(() => {
-      const 
-        now: dayjs.Dayjs | string = krTime(), 
-        target: dayjs.Dayjs = dayjs(targetTime),
-        duration: duration.Duration = dayjs.duration(target.diff(now)),
-        days: number = Math.floor(duration.asDays()),
-        hours: number = duration.hours(),
-        minutes: number = duration.minutes(),
-        seconds: number = duration.seconds(),
-        countdownString = `${days}d ${hours}h ${minutes}m ${seconds}s`
-      setCountdown(days+hours+minutes+seconds <= 0 ? 
-        'DING DONG' : countdownString
-      )
+      time.duration()
+      setCountdown(time.countdown)
     }, 1000)
   }, [])
 
