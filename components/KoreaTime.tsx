@@ -31,7 +31,7 @@ const KoreaTime: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <span className="koreatime self-end">Next Event: <strong>Spicy Release</strong> {countdown}</span>{'•'}
+      <span className="koreatime self-end">Next Event: <strong>Spicy Release</strong> {countdown}</span>
       <span className="koreatime self-end">KST: {currentTime}</span> 
     </>
   )

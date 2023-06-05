@@ -1,5 +1,5 @@
 /** 
- * EventTimer.js
+ * EventTimer.js v.0.90
  * 2023 (c) @aeholic
  * github.com/aeholic
  * -----------------------

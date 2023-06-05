@@ -48,10 +48,10 @@
 	}
 }
 
+* { @apply outline-none }
 html, body { @apply max-w-[100vw] overflow-x-hidden }
-
 body {
-  @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat;
+  @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat container mx-auto;
 	/* background-image: url('../public/bg.jpg'); */
   /* background: rgb(var(--background-end-rgb)); */
 	/* font-family: var(--font); */
