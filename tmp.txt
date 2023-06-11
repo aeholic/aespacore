@@ -1,0 +1,387 @@
+model Event {
+  id        String    @id @default(uuid())
+  eventName String
+  date      String
+  time      String?
+  category  String
+  confirmed Boolean   @default(false)
+  link      String?
+  image     String?
+  status    Int       @default(1)
+  reminder  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// Status:
+// 1 SCHEDULED
+// 2 POSTPONED
+// 3 EXPIRED
+// 4 CANCELLED
+// 5 RUMORED
+
+model Content {
+  id        String    @id @default(uuid())
+  name      String    
+  category  Int       @default(1) 
+  date      DateTime
+  image     String?   
+  link      String 
+  deadlink  Boolean   @default(false)
+  language  String    @default("KO")
+  subbed    Boolean   @default(false)
+  length    String  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// Categories:
+// 1 Release
+// 2 Interview
+// 3 Fansign
+// 4 Radio
+// 5 Variety
+// 6 Reality
+// 7 BTS
+// 8 Vlog
+// 9 Live
+// 10 VOD
+// 11 Performance
+// 12 Reaction
+// [13 Fancams]
+// 14 Other
+
+-----
+
+CREATE TABLE IF NOT EXISTS `dailyevent` (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "eventName" TEXT NOT NULL,
+  "time" TEXT NOT NULL,
+  "category" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `weeklyevent` (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "eventName" TEXT NOT NULL,
+  "time" TEXT NOT NULL,
+  "date" TEXT NOT NULL,
+  "category" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+
+INSERT INTO Event (
+    updatedAt,
+    createdAt,
+    confirmed,
+    category,
+    time,
+    date,
+    eventName,
+    id
+) VALUES (
+    1685924842916,
+    1685924842916,
+    1,
+    'Festival/Performance',
+    '07:30:00',
+    '2023/06/10',
+    'The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA',
+    '993ac140-f0f0-41e7-88b4-a3e3f93b3667'
+),
+(
+    1685925171807,
+    1685925171807,
+    1,
+    'Variety',
+    '20:50:00',
+    '2023/06/10',
+    'Knowing Bros EP.387',
+    '1fbad0f7-1590-49ad-ae08-89c24167b673'
+),
+(
+    1685925237859,
+    1685925237859,
+    1,
+    'Fansign',
+    '20:00:00',
+    '2023/06/14',
+    'Withmuu Fansign Event',
+    '8486205f-8be0-4e1c-8274-b558cd1dff95'
+),
+(
+    1685925410470,
+    1685925410470,
+    0,
+    'Concert/Tour',
+    '19:30:00',
+    '2023/06/16',
+    '32nd Lotte Duty Free Family Concert',
+    '07cc7aab-9b8e-4f0f-868b-a0e70a67896f'
+),
+(
+    1685925504441,
+    1685925504441,
+    0,
+    'Festival/Performance',
+    '21:00:00',
+    '2023/06/18',
+    '''SEEN Festival'' - Hoiana Resort & Golf in Hoi An, Vietnam',
+    '15900917-3901-4bdc-bde5-d5f70de9a7db'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Chart Update',
+    '04:00:00',
+    '2023/06/07',
+    'Spotify monthly listeners',
+    '1fbad0f7-1590-49ad-ae08-89c24167b676'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Chart Update',
+    '07:00:00',
+    '2023/06/07',
+    'VIBE chart update',
+    '1fbad0f7-1590-49ad-ae08-89c24167b675'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Chart Update',
+    '07:00:00',
+    '2023/06/11',
+    'YouTube Music',
+    '1fbad0f7-1590-49ad-ae08-89c24168d654'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Chart Update',
+    '19:00:00',
+    '2023/06/07',
+    'Spotify daily streams and charts',
+    '1fbad0f7-1590-49ad-ae08-89c24167b674'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Festival/Performance',
+    NULL,
+    '2023/06/25',
+    'Waterbomb Festival in Seoul',
+    '1fbad0f7-1590-49ad-ae08-89c24167b678'
+),
+(
+    1685924842916,
+    1685924842916,
+    0,
+    'Festival/Performance',
+    NULL,
+    '2023/08/11',
+    'Outside Lands Music & Arts Festival in San Francisco/US @Golden Gate Park',
+    '1fbad0f7-1590-49ad-ae08-89c24167b682'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    '16:30:00',
+    '2023/06/24',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Jakarta/Indonesia @Hall 5, Indonesia Convention Exhibition BSD',
+    '1fbad0f7-1590-49ad-ae08-89c24167b677'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    '20:00:00',
+    '2023/07/29',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Bangkok/Thailand @Thunder Dome - Day #1',
+    '1fbad0f7-1590-49ad-ae08-89c24167b679'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    '18:00:00',
+    '2023/07/30',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Bangkok/Thailand @Thunder Dome - Day #2',
+    '1fbad0f7-1590-49ad-ae08-89c24167b680'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/05',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" Special in Tokyo/Japan @Tokyo Dome - Day #1',
+    '1fbad0f7-1590-49ad-ae08-89c24167b68c'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/06',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" Special in Tokyo/Japan @Tokyo Dome - Day #2',
+    '1fbad0f7-1590-49ad-ae08-89c24167b681'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/13',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Los Angeles/US @Crypto.com Arena',
+    '1fbad0f7-1590-49ad-ae08-89c24167b683'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/18',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Dallas/US @The Pavilion At Toyota Music Factory',
+    '1fbad0f7-1590-49ad-ae08-89c24167b684'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/22',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Miami/US @James L. Knight Center',
+    '1fbad0f7-1590-49ad-ae08-89c24167b685'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/25',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Atlanta/US @Fox Theater',
+    '1fbad0f7-1590-49ad-ae08-89c24167b686'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/27',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Washington/US @The Theater at MGM National Harbor',
+    '1fbad0f7-1590-49ad-ae08-89c24167b687'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/08/30',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Chicago/US @Rosemont Theatre',
+    '1fbad0f7-1590-49ad-ae08-89c24167b688'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/02',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Boston/US @MGM Music Hall at Fenway',
+    '1fbad0f7-1590-49ad-ae08-89c24167b689'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/05',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Brooklyn/US @Barclays Center',
+    '1fbad0f7-1590-49ad-ae08-89c24167b690'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/08',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Mexico City/Mexico @Palacio de los Deportes',
+    '1fbad0f7-1590-49ad-ae08-89c24167b691'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/11',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in São Paulo/Brazil @Espaço Unimed',
+    '1fbad0f7-1590-49ad-ae08-89c24167b692'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/14',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Santiago/Chile @Teatro Caupolicán',
+    '1fbad0f7-1590-49ad-ae08-89c24167b693'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/25',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Berlin/Germany @Columbiahalle',
+    '1fbad0f7-1590-49ad-ae08-89c24167b694'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/28',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in London/UK @The O2',
+    '1fbad0f7-1590-49ad-ae08-89c24167b695'
+),
+(
+    1685924842916,
+    1685924842916,
+    1,
+    'Concert/Tour',
+    NULL,
+    '2023/09/30',
+    'aespa Live Tour 2023 "SYNK: HYPER LINE" in Paris/France @Dôme de Paris',
+    '1fbad0f7-1590-49ad-ae08-89c24167b696'
+);
+
+
+---
+
