@@ -31,8 +31,11 @@ INSERT INTO ContinualEvent VALUES
 
 INSERT INTO Event VALUES ('ID', 'EventName', 'YYYY/MM/DD', 'HH:mm:ss', 'Category', 'confirmed', Link, Image, Status, Reminder, 'CreatedAt', 'UpdatedAt');
 
+#Dummy Record
+INSERT INTO Event VALUES ('993ac140-f0f0-41e7-88b4-a3e3f93b366d', 'Event Name', '2023/06/13', '04:49:00', 'Other', 1, NULL, NULL, 1, FALSE, '1685924842916', '1685924842916');
+
 INSERT INTO Event VALUES 
-('993ac140-f0f0-41e7-88b4-a3e3f93b3667', 'The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA', '2023/06/10', '07:30:00', 'Festival/Performance', 1, NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
+('993ac140-f0f0-41e7-88b4-a3e3f93b3667', 'The Governors Ball Music Festival @ Flushing Meadows Corona Park, New York City, USA', '2023/06/10', '07:45:00', 'Festival/Performance', 1, NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
 ('1fbad0f7-1590-49ad-ae08-89c24167b673', 'Knowing Bros EP.387', '2023/06/10', '20:50:00', 'Variety', 1, NULL, NULL, 1, FALSE, '1685925171807', '1685925171807'),
 ('8486205f-8be0-4e1c-8274-b558cd1dff95', 'Withmuu Fansign Event', '2023/06/14', '20:00:00', 'Fansign', 1, NULL, NULL, 1, FALSE, '1685925237859', '1685925237859'),
 ('07cc7aab-9b8e-4f0f-868b-a0e70a67896f', '32nd Lotte Duty Free Family Concert', '2023/06/16', '19:30:00', 'Concert/Tour', 0, NULL, NULL, 1, FALSE, '1685925410470', '1685925410470'),

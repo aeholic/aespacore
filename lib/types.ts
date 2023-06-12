@@ -5,17 +5,24 @@ export type Children = {
 }
 
 export type EventProps = {
+  [key: string]: React.ReactNode
   eventName: string
-  dateTime: string
+  dateTime?: string
   date: string
   time?: string
   category: string
   confirmed?: boolean
+  link?: string
+  image?: string
+  status: number
+  reminder: boolean
 } & []
 
 export type EventComponentProps = {
+  [key: string]: React.ReactNode
   dateTime: string
   eventName: string
   category: string
   confirmed: boolean
+  link?: string
 }

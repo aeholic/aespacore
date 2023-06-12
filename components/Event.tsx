@@ -2,15 +2,29 @@
 
 "use client"
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect} from 'react'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import dayjs from 'dayjs'
 import type { EventComponentProps } from '§/lib/types'
+import Link from 'next/link'
+
+const pastTime = (cntdown: string | undefined) => {
+  let past: string = '' 
+  // const countdown: any = '-21d -1h -6m -12s'
+  const countdown: any = cntdown
+  const if1day = countdown.replace('-1d ', '')
+  const remMinus: any = if1day?.match(/(?!\-)\d+[dhms]/g)?.join(' ')
+  const removedDay = remMinus?.match(/\d+(?=d)/) - 1
+  const replacedDay = remMinus?.replace(/\d+(?=d)/, removedDay)
+  past = replacedDay
+  return past
+  // console.log(past)
+}
 
 const Event = (props: EventComponentProps) : JSX.Element => {
 
   const 
-    { dateTime, eventName, category, confirmed }: EventComponentProps = props,
+    { dateTime, eventName, category, confirmed, link }: EventComponentProps = props,
     splitDate: Array<string> = dateTime.split(/\s/),
 
     time: iEventTimer = new EventTimer({
@@ -21,7 +35,8 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       action: 'DING DONG!'
     }),
 
-    [countdown, setCountdown] = useState<string | undefined>('')
+    [countdown, setCountdown] = useState<string | undefined>(''),
+    curDate = dayjs().utcOffset(540).format('YYYY/MM/DD HH:mm:ss' )
 
   useEffect(() => {
     setInterval(() => {
@@ -42,20 +57,20 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       cat === 'Interview/Radio' ? '!bg-lime-700' :
       cat === 'Comeback Teaser' ? '!bg-teal-700' :
       cat === 'Release' ? '!bg-violet-700' :
-      cat === 'Other' || 'other' || null ? '!bg-sky-900' : null
+      cat === 'Other' || null ? '!bg-sky-900' : null
     )}
   }
 
   return (
-    <div className="event">
+    <div {...{className: 'event '+(dateTime < curDate ? 'opacity-60 brightness-75' : '')}}>
       <span className="date">
         {dayjs(splitDate[1] === 'null' ? splitDate[0] : dateTime).format('YYYY ddd MMM D')}
         {confirmed && <span className="confirmed" title="Officially confirmed by aespa/SME">✓&nbsp;Confirmed</span>}
       </span>
       <span className="time">{splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}</span>
       <span {...getCategoryColor(category)}>{category}</span>
-      <span className="eventname">{eventName}</span>
-      <span className="remaining">{countdown}</span>
+      <span className="eventname"><Link target="_blank" href={link || 'https://www.twitter.com/aespa_official'}>{eventName}</Link></span>
+      <span className="remaining">{dateTime < curDate ? <>COMMENCED<br /> {pastTime(countdown)} ago</>: countdown}</span>
     </div>
   )
 }

@@ -24,19 +24,34 @@ const
     })
   },
   editEvent = async (data: EventProps): Promise<any> => {},
-  getEvents = async (): Promise<any> => await prisma.event.findMany()
+  // getEvents = async (): Promise<any> => await prisma.event.findMany(),
+  /**
+   * Get all events. 
+   * @return Promise: query result
+   * @param status: "<" commenced | ">" scheduled"
+  */
+  getEvents = async (status?: '>' | '<'): Promise<any> => {
+    const query = await prisma.$queryRawUnsafe(`
+      SELECT * FROM Event 
+      WHERE REPLACE(date, '/', '-') ${status} DATE('now') 
+      ORDER BY date ASC
+    `)
+    return query
+  }
 
 export default async function EventSchedulePage() : Promise<JSX.Element> {
 
-  const events = await getEvents()
+  const scheduled = await getEvents('>')
+  const commenced = await getEvents('<')
 
-  const returnEvents = () => {
-    return events.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
+  const returnEvents = (event:any) => {
+    return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
       <Event key={event.id} 
         dateTime={`${event.date} ${event.time}`}
         eventName={event.eventName} 
         confirmed={event.confirmed} 
         category={event.category}
+        link={event.link}
       />
     ))
   }
@@ -53,7 +68,8 @@ export default async function EventSchedulePage() : Promise<JSX.Element> {
             <span>Event</span>
             <span>Countdown</span>
           </div>
-          {returnEvents()}
+          {returnEvents(commenced)}
+          {returnEvents(scheduled)}
         </div>
       </article>
     </section>

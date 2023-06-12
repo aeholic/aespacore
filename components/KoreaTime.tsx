@@ -13,7 +13,7 @@ const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
     { nextEvent } = props,
 
     time = new EventTimer({
-      targetTime: `${nextEvent[0].date} ${nextEvent[0].time}`,
+      targetTime: `${nextEvent[1].date} ${nextEvent[1].time}`,
       countdown: '0d 0h 0m 0s',
       UTCtimezone: 540,
       format: 'YYYY/MM/DD HH:mm:ss',

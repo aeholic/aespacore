@@ -55,7 +55,7 @@
 * { @apply outline-none }
 html, body { @apply max-w-[100vw] overflow-x-hidden }
 body {
-  @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat container mx-auto;
+  @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat /*container mx-auto*/;
 	font-size: small;
 	/* background-image: url('../public/bg.jpg'); */
   /* background: rgb(var(--background-end-rgb)); */
@@ -106,7 +106,7 @@ main {
 /* Components */
 .event, .event-header {
 	display: grid;
-	grid-template-columns: 9rem 6.5rem 12rem 6fr 8rem;
+	grid-template-columns: 9rem 6.5rem 12rem 6fr 9rem;
 
 	&:hover span:not(.event-header > span) { @apply bg-slate-800 border-slate-400 }
 
