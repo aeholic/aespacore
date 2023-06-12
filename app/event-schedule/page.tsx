@@ -4,44 +4,30 @@ import type { Metadata } from 'next'
 import Project from '§/lib/utils'
 import Event from '§/components/Event'
 import { prisma } from '§/lib/db'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import { EventProps } from '§/lib/types'
 
 export const metadata: Metadata = { 
   title: `${Project} - Event Schedule`,
   description: 'Event schedule.'
 }
 
-type EventProps = {
-  eventName: string
-  date: string
-  time?: string
-  category: string
-  confirmed: boolean
-}
-
-const addEvent: Function = async (data: EventProps): Promise<any> => {
-  await prisma.event.create({
-    data: {
-      eventName: data.eventName,
-      date: data.date,
-      time: data.time,
-      category: data.category,
-      confirmed: data.confirmed
-    }
-  })
-}
-
-// const getOneRow = async () => {
-//   return await prisma.$queryRaw`SELECT eventName FROM 'Event' ORDER BY 'date','time' DESC LIMIT 1;`
-// }
-
-const editEvent: Function = async (data: EventProps): Promise<any> => {}
-
-const getEvents: Function = async (): Promise<any> => await prisma.event.findMany()
+const 
+  addEvent = async (data: EventProps): Promise<any> => {
+    await prisma.event.create({
+      data: {
+        eventName: data.eventName,
+        date: data.date,
+        time: data.time,
+        category: data.category,
+        confirmed: data.confirmed
+      }
+    })
+  },
+  editEvent = async (data: EventProps): Promise<any> => {},
+  getEvents = async (): Promise<any> => await prisma.event.findMany()
 
 export default async function EventSchedulePage() : Promise<JSX.Element> {
-
-  // console.log(await getOneRow())
 
   const events = await getEvents()
 

@@ -5,18 +5,12 @@
 import { useState, useEffect } from 'react'
 import EventTimer from '§/lib/EventTimer'
 import dayjs from 'dayjs'
+import type { EventComponentProps } from '§/lib/types'
 
-type EventProps = {
-  dateTime: string
-  eventName: string
-  category: string
-  confirmed: boolean
-}
-
-const Event = (props: EventProps) : JSX.Element => {
+const Event = (props: EventComponentProps) : JSX.Element => {
 
   const 
-    { dateTime, eventName, category, confirmed }: EventProps = props,
+    { dateTime, eventName, category, confirmed }: EventComponentProps = props,
     splitDate: Array<string> = dateTime.split(/\s/),
 
     time = new EventTimer({

@@ -5,10 +5,11 @@ import Link from 'next/link'
 import logo from '§/public/aespa_logo.png'
 import { Noto_Sans_KR, Oswald } from 'next/font/google'
 import type { Metadata } from 'next'
-import type { Children } from '§/lib/types'
+import type { Children, EventProps } from '§/lib/types'
 import './globals.css'
 import KoreaTime from '§/components/KoreaTime'
 import Project from '§/lib/utils'
+import { prisma } from '§/lib/db'
 
 const osw = Oswald({ 
 	subsets: ['latin'], 
@@ -26,7 +27,15 @@ export const metadata: Metadata = {
   description: 'Your #1 Source for aespa statistics',	
 }
 
-export default function RootLayout({ children }: Children) {
+const NextEvent = async () => {
+	const upcoming: EventProps = await prisma.$queryRaw`SELECT eventName, date, time FROM Event ORDER BY date, time ASC LIMIT 1`
+	return upcoming
+}
+
+export default async function RootLayout({ children }: Children) {
+
+	const upcomingEvent = await NextEvent()
+
   return (
     <html lang='en'>
 			<head />
@@ -48,7 +57,7 @@ export default function RootLayout({ children }: Children) {
 									<span><Link href="/brand-reputation">Brand Reputation</Link></span>
 								</div>
 								<div className="menu-right">
-                  <KoreaTime />
+                  <KoreaTime nextEvent={upcomingEvent}/>
 								</div>
 							</div>
 						</nav>
