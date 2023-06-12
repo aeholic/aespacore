@@ -30,22 +30,23 @@ const
    * @return Promise: query result
    * @param status: "<" commenced | ">" scheduled"
   */
-  getEvents = async (status?: '>' | '<'): Promise<any> => {
+  getEvents = async (status?: '>=' | '<'): Promise<any> => {
     const query = await prisma.$queryRawUnsafe(`
       SELECT * FROM Event 
-      WHERE REPLACE(date, '/', '-') ${status} DATE('now') 
-      ORDER BY date ASC
+      WHERE REPLACE(date, '/', '-') ${status} DATE('now', 'localtime') 
+      ORDER BY date ASC, time ASC
     `)
     return query
   }
 
 export default async function EventSchedulePage() : Promise<JSX.Element> {
 
-  const scheduled = await getEvents('>')
+  const scheduled = await getEvents('>=')
   const commenced = await getEvents('<')
 
   const returnEvents = (event:any) => {
-    return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
+    // return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
+    return event.map((event: any) => (
       <Event key={event.id} 
         dateTime={`${event.date} ${event.time}`}
         eventName={event.eventName} 

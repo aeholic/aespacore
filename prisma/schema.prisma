@@ -27,9 +27,10 @@ model Event {
 
 // Status:
 // 1 SCHEDULED
-// 2 POSTPONED
+// 2 COMMENCED
 // 3 EXPIRED
-// 4 CANCELLED
+// 4 POSTPONED
+// 5 CANCELLED
 
 model Content {
   id        String    @id @default(uuid())
