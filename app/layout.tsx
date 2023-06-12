@@ -23,12 +23,17 @@ const noto = Noto_Sans_KR({
 })
 
 export const metadata: Metadata = { 
-  title: Project,
+  title: `${Project}`,
   description: 'Your #1 Source for aespa statistics',	
 }
 
 const NextEvent = async () => {
-	const upcoming: EventProps = await prisma.$queryRaw`SELECT eventName, date, time FROM Event ORDER BY date, time ASC LIMIT 1`
+	const upcoming: EventProps = await prisma.$queryRaw`
+		select * from Event 
+			WHERE REPLACE(date, '/', '-') > DATE('now') 
+			ORDER BY date ASC 
+			LIMIT 1;`
+
 	return upcoming
 }
 

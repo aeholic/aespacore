@@ -4,9 +4,10 @@
 
 import { useState, useEffect } from 'react'
 import EventTimer from '§/lib/EventTimer'
-import { EventProps } from '§/lib/types'
+import type { EventProps } from '§/lib/types'
+import Utils from '§/lib/utils'
 
-const KoreaTime = (props: { nextEvent: EventProps[] } ): JSX.Element => {
+const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
 
   const 
     { nextEvent } = props,
@@ -34,7 +35,7 @@ const KoreaTime = (props: { nextEvent: EventProps[] } ): JSX.Element => {
 
   return (
     <>
-      <span className="koreatime self-end">Next Event: <strong>{nextEvent[0].eventName}</strong> {countdown}</span>
+      <span className="koreatime self-end">Next Event: <strong>{Utils.short(nextEvent[0].eventName)}</strong> {countdown}</span>
       <span className="koreatime self-end">KST: {currentTime}</span> 
     </>
   )

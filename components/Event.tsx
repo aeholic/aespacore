@@ -2,8 +2,8 @@
 
 "use client"
 
-import { useState, useEffect } from 'react'
-import EventTimer from '§/lib/EventTimer'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import dayjs from 'dayjs'
 import type { EventComponentProps } from '§/lib/types'
 
@@ -13,7 +13,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     { dateTime, eventName, category, confirmed }: EventComponentProps = props,
     splitDate: Array<string> = dateTime.split(/\s/),
 
-    time = new EventTimer({
+    time: iEventTimer = new EventTimer({
       targetTime: splitDate[1] === 'null' ? `${splitDate[0]} 00:00:00` : dateTime,
       countdown: '0d 0h 0m 0s',
       UTCtimezone: 540,
@@ -21,7 +21,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       action: 'DING DONG!'
     }),
 
-    [countdown, setCountdown] = useState<string>('')
+    [countdown, setCountdown] = useState<string | undefined>('')
 
   useEffect(() => {
     setInterval(() => {

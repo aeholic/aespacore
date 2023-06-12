@@ -1,5 +1,13 @@
 // Utilities
 
-const Project: string = "aespacore"
+namespace Utils {
+  
+  export const Project: string = "aespacore"
 
-export default Project
+  export const short: Function = (text: string): string => {
+    let edit: string = `${text.slice(0,25).trim()}...`
+    return edit
+  }
+}
+
+export default Utils
