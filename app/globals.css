@@ -44,10 +44,10 @@
 @layer components {
 	.link { @apply h-0 text-[var(--secondary)] inline-block hover:hoverlink trans-all3 }
 	.txtshadow { text-shadow: -2px 0 black, 0 1px black, 2px 0 black, 0 -1px black }
-	.checkmark {
+	/* .checkmark {
 		@apply w-3 ml-[7.4rem] p-0 overflow-x-hidden absolute z-10;
 		&:hover { @apply w-[6.4rem] text-[#59ba8f] border border-slate-400 trans-all3 }
-	}
+	} */
 }
 
 
@@ -106,7 +106,9 @@ main {
 /* Components */
 .event, .event-header {
 	display: grid;
-	grid-template-columns: 9rem 6.5rem 12rem 6fr 9rem;
+	/* grid-template-columns: 9rem 6.5rem 12rem 6fr 9rem; */
+	grid-template-columns: 8rem 5rem 9rem 5fr 10rem 10rem;
+	@apply xl:text-sm sm:text-xs;
 
 	&:hover span:not(.event-header > span) { @apply bg-slate-800 border-slate-400 }
 
@@ -118,14 +120,19 @@ main {
 		}
 	}
 	span {
-		@apply border border-black rounded-md txtshadow bg-slate-900 p-1 h-14 flex items-center;
-		&.date { 
-			.confirmed { @apply text-slate-500 font-bold border-0 cursor-default checkmark !h-8 }
-		}
+		@apply border border-black rounded-md txtshadow bg-slate-900 p-1 xl:h-10 flex items-center;
+		&.date {}
 		&.time {}
 		&.category { @apply font-semibold text-center }
 		&.eventname { @apply font-semibold }
-		&.remaining {}
+		&.remaining {
+			&:has(.commenced) {
+				@apply flex flex-col items-start;
+				.commenced { @apply text-yellow-500 p-0 border-0 -mt-1 }
+				p { @apply -mt-6 }
+			}
+		}
+		&.eventinfo { &-confirmed { @apply text-slate-500 font-bold cursor-default }}
 	}
 }
 

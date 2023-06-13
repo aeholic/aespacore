@@ -30,9 +30,10 @@ export const metadata: Metadata = {
 const NextEvent = async () => {
 	const upcoming: EventProps = await prisma.$queryRaw`
 		SELECT * FROM Event 
-			WHERE REPLACE(date, '/', '-') > DATE('now', 'localtime') 
-			ORDER BY date ASC, time ASC
-			LIMIT 1;`
+			WHERE REPLACE(date, '/', '-') >= DATE('now', '+9 hours') 
+				AND time > TIME('now', '+9 hours')
+			ORDER BY date, time ASC
+		LIMIT 1;`
 
 	return upcoming
 }

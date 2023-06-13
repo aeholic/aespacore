@@ -14,7 +14,7 @@ const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
 
     time = new EventTimer({
       targetTime: `${nextEvent[0].date} ${nextEvent[0].time}`,
-      countdown: '0d 0h 0m 0s',
+      countdown: '00d 00h 00m 00s',
       UTCtimezone: 540,
       format: 'YYYY/MM/DD HH:mm:ss',
       action: 'DING DONG!'
@@ -35,7 +35,7 @@ const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
 
   return (
     <>
-      <span className="koreatime self-end">Next Event: <strong>{Utils.short(nextEvent[0].eventName)}</strong> {countdown}</span>
+      <span className="koreatime self-end">Next Event: <strong>{Utils.short(nextEvent[0].eventName)}</strong> {countdown.match(/0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown}</span>
       <span className="koreatime self-end">KST: {currentTime}</span> 
     </>
   )

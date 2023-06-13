@@ -50,7 +50,7 @@ export interface iEventTimer extends EventTimerInit {
 export default class EventTimer implements iEventTimer {
 
   public targetTime: string = '2030/01/01 00:00:00'
-  public countdown: string = '0d 0h 0m 0s' 
+  public countdown: string = '00d 00h 00m 00s' 
   public UTCtimezone: number = 540 
   public format: string = 'YYYY/MM/DD HH:mm:ss' 
   public action: any = 'DING DONG!'

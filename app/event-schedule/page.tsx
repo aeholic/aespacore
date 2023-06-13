@@ -33,8 +33,8 @@ const
   getEvents = async (status?: '>=' | '<'): Promise<any> => {
     const query = await prisma.$queryRawUnsafe(`
       SELECT * FROM Event 
-      WHERE REPLACE(date, '/', '-') ${status} DATE('now', 'localtime') 
-      ORDER BY date ASC, time ASC
+        WHERE REPLACE(date, '/', '-') ${status} DATE('now', '+9 hour')
+        ORDER BY date ASC, time ASC
     `)
     return query
   }
@@ -47,12 +47,15 @@ export default async function EventSchedulePage() : Promise<JSX.Element> {
   const returnEvents = (event:any) => {
     // return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
     return event.map((event: any) => (
-      <Event key={event.id} 
+      <Event key={event.id}
         dateTime={`${event.date} ${event.time}`}
-        eventName={event.eventName} 
-        confirmed={event.confirmed} 
+        eventName={event.eventName}
+        confirmed={event.confirmed}
         category={event.category}
         link={event.link}
+        image= {event.image}
+        status= {event.status}
+        reminder= {event.reminder}
       />
     ))
   }
@@ -68,6 +71,7 @@ export default async function EventSchedulePage() : Promise<JSX.Element> {
             <span>Category</span>
             <span>Event</span>
             <span>Countdown</span>
+            <span>Info</span>
           </div>
           {returnEvents(commenced)}
           {returnEvents(scheduled)}
