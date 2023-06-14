@@ -21,7 +21,7 @@ const pastTime = (cntdown: string | undefined) => {
 }
 
 
-const hlText = (str: any) => {
+export const hlText = (str: any) => {
   let rpl = (s: string) => `<span className='text-cyan-500 !border-0 !h-0'>${s}</span>`
   const replacedHTML = str
     .replaceAll(/(?!\d)d\b/g, rpl('d'))
@@ -42,12 +42,11 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       targetTime: splitDate[1] === 'null' ? `${splitDate[0]} 00:00:00` : dateTime,
       countdown: '0d 0h 0m 0s',
       UTCtimezone: 540,
-      format: 'YYYY/MM/DD HH:mm:ss',
-      action: 'DING DONG!'
+      format: 'YYYY-MM-DD HH:mm:ss'
     }),
 
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
-    curDate = dayjs().utcOffset(540).format('YYYY/MM/DD HH:mm:ss' )
+    curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss' )
 
   useEffect(() => {
     setInterval(() => {

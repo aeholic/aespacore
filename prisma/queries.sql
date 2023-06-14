@@ -30,11 +30,12 @@ select datetime('now') `GMT`, (select date('now')) || ' ' || (select time('now')
 
 SELECT
     `eventName`, 
-    DATETIME('now', 'utc', '+9 hours') AS `krDateTime`,
-    REPLACE(`date`, '/', '-') || ' ' || `time` AS `eventDateTime`
+    DATETIME('now', 'utc', '+11 hours') AS `krDateTime`,
+    `date` || ' ' || `time` AS `eventDateTime`
 FROM `Event`
-    WHERE `krDateTime` <= `eventDateTime`
-ORDER BY `date` ASC;
---LIMIT 1;
+    WHERE `krDateTime` <= `eventDateTime` 
+ORDER BY `eventDateTime` ASC
+LIMIT 2;
+
 
 

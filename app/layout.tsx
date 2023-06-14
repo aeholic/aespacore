@@ -29,11 +29,14 @@ export const metadata: Metadata = {
 
 const NextEvent = async () => {
 	const upcoming: EventProps = await prisma.$queryRaw`
-		SELECT * FROM Event 
-			WHERE REPLACE(date, '/', '-') >= DATE('now', '+9 hours') 
-				AND time > TIME('now', '+9 hours')
-			ORDER BY date, time ASC
-		LIMIT 1;`
+		SELECT
+			date, time, eventName, 
+			DATETIME('now', 'utc', '+11 hours') AS krDateTime,
+			date || ' ' || time AS eventDateTime
+		FROM Event
+		WHERE krDateTime <= eventDateTime 
+		ORDER BY eventDateTime ASC
+		LIMIT 2;`
 
 	return upcoming
 }
@@ -49,18 +52,18 @@ export default async function RootLayout({ children }: Children) {
 				<header className={`${osw.className}`}>
 					<div className="flex p-5">
 						<Link href="/" className="flex title-font font-medium items-center text-white">
-							<Image id="logo" src={logo} alt="aespa Fancams" title="aespa Fancams" />
+							<Image id="logo" className="animate-pulse" src={logo} alt="aespa Fancams" title="aespa Fancams" />
 							<span className="ml-3 mr-8 text-2xl">aespacore</span>
 						</Link>
 						<nav>
 							<div id="topnavi">
 								<div className="menu">
-									<span><Link href="/">Home</Link></span>
-									<span><Link href="/event-schedule">Event Schedule</Link></span>
-									<span><Link href="/achievements">Achievements</Link></span>
-									<span><Link href="/content-timeline">Content Timeline</Link></span>
-									<span><Link href="/fancams">Fancams</Link></span>
-									<span><Link href="/brand-reputation">Brand Reputation</Link></span>
+									<span><Link href="/" prefetch={true}>Home</Link></span>
+									<span><Link href="/event-schedule" prefetch={true}>Event Schedule</Link></span>
+									<span><Link href="/achievements" prefetch={true}>Achievements</Link></span>
+									<span><Link href="/content-timeline" prefetch={true}>Content Timeline</Link></span>
+									<span><Link href="/fancams" prefetch={true}>Fancams</Link></span>
+									<span><Link href="/brand-reputation" prefetch={true}>Brand Reputation</Link></span>
 								</div>
 								<div className="menu-right">
                   <KoreaTime nextEvent={upcomingEvent}/>
