@@ -11,6 +11,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import duration from 'dayjs/plugin/duration'
+import { type } from 'os'
 
 dayjs.extend(utc)
 dayjs.extend(duration)
@@ -26,6 +27,17 @@ export type EventTimerInit = Action & {
   countdown?: string
   UTCtimezone?: number
   format?: string
+}
+
+/**
+ * @type TimeUnits,
+ * Type for the EventTimer class
+ */
+export type TimeUnits = {
+  days?: string | number | null
+  hours?: string | number | null
+  minutes?: string | number | null
+  seconds?: string | number | null
 }
 
 /**
@@ -47,13 +59,18 @@ export interface iEventTimer extends EventTimerInit {
  * @class EventTimer
  * @implements {iEventTimer}
 */
-export default class EventTimer implements iEventTimer {
+export default class EventTimer implements iEventTimer, TimeUnits {
 
   public targetTime: string = '2030-01-01 00:00:00'
   public countdown: string = '00d 00h 00m 00s' 
   public UTCtimezone: number = 540 
   public format: string = 'YYYY-MM-DD HH:mm:ss' 
   public action: any = 'DING DONG!'
+
+  public days: string | number = ''
+  public hours: string | number = ''
+  public minutes: string | number = ''
+  public seconds: string | number = ''
   
   /**
    * Creates an instance of EventTimer.
@@ -82,19 +99,19 @@ export default class EventTimer implements iEventTimer {
    * @return {*} {string}
    * @memberof EventTimer
   */
-  public duration(): string {
+  public duration(): void {
     const 
       now: dayjs.Dayjs | string = this.krTime(), 
       target: dayjs.Dayjs = dayjs(this.targetTime),
-      duration: duration.Duration = dayjs.duration(target.diff(now)),
-      days: number = Math.floor(duration.asDays()),
-      hours: number = duration.hours(),
-      minutes: number = duration.minutes(),
-      seconds: number = duration.seconds()
+      duration: duration.Duration = dayjs.duration(target.diff(now))
+    this.days = Math.floor(duration.asDays())
+    this.hours = duration.hours()
+    this.minutes = duration.minutes()
+    this.seconds = duration.seconds()
       
-    this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`
+    this.countdown = `${this.days}d ${this.hours}h ${this.minutes}m ${this.seconds}s`
     
-    return days+hours+minutes+seconds <= 0 ? this.action : this.countdown
+    //return this.days+this.hours+this.minutes+this.seconds <= 0 ? this.action : this.countdown
   }
   
   /**
@@ -113,5 +130,14 @@ export default class EventTimer implements iEventTimer {
   */
   public setAction(action: Action): void {
     this.action = action
+  }
+
+  public getTimerUnit(): TimeUnits {
+    return {
+      days: this.days,
+      hours: this.days,
+      minutes: this.days,
+      seconds: this.days
+    } 
   }
 }
