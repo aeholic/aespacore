@@ -5,11 +5,12 @@
 import { useState, useEffect } from 'react'
 import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
+import { timestr } from './KoreaTime'
 import dayjs from 'dayjs'
 import type { EventComponentProps } from '§/lib/types'
 import Link from 'next/link'
 
-const parse = HTMLReactParser
+const parse: any = HTMLReactParser
 
 const pastTime = (cntdown: string | undefined) => {
   const countdown: any = cntdown
@@ -19,7 +20,6 @@ const pastTime = (cntdown: string | undefined) => {
   const replacedDay = remMinus?.replace(/\d+(?=d)/, removedDay)
   return replacedDay
 }
-
 
 export const hlText = (str: any) => {
   let rpl = (s: string) => `<span className='text-cyan-500 !border-0 !h-0'>${s}</span>`
@@ -84,7 +84,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         {dateTime < curDate ? 
           <>
             <span className="commenced">COMMENCED</span><br />
-            <p>{pastTime(countdown)?.match(/^0h 0m 0s/g) ? '1d 0h 0m 0s ago' : `${pastTime(countdown)} ago`}</p>
+            <p className="text-gray-400">{pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? '1d 0h 0m 0s ago' : `${pastTime(countdown).toString()} ago`}</p>
           </>
         : hlText(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown)}
       </span>

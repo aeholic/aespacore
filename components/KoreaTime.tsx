@@ -20,7 +20,7 @@ export const timeColorizer = ( params: TimeColorizerProps): JSX.Element => {
   return <>{params.counter}<span className='text-cyan-500 !border-0 !h-0 !p-1'>{params.unit}</span></>
 }
 
-const timestr = (str: string, mode: string = 'date' || 'time') : JSX.Element => {
+export const timestr = (str: string, mode: string = 'date' || 'time' || 'remaining') : JSX.Element | string => {
   if (mode === 'time') {
     const rgxt: { time?: any, hours?: any, minutes?: any, seconds?: any, divider?: any } = {}
 
@@ -52,6 +52,10 @@ const timestr = (str: string, mode: string = 'date' || 'time') : JSX.Element => 
         {timeColorizer({counter: rgxd.day})}
       </>
     )
+  } else if (mode === 'remaining') {
+    const rgxr: { d?: any, h?: any, m?: any, s?: any } = {}
+    // Math.abs(rgxr.d)
+    return <>{str}</>
   } else {
     return <>{str}</>
   }

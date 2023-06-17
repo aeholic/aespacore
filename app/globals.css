@@ -104,7 +104,7 @@ main {
 	grid-template-columns: 8rem 5rem 9rem 5fr 10rem 10rem;
 	@apply xl:text-sm sm:text-xs;
 
-	&:hover span:not(.event-header > span) { @apply bg-slate-800 border-slate-400 }
+	&:hover span:not(.event-header > span) { @apply bg-slate-900 border-slate-500 }
 
 	&-header {
 		@apply mb-3;
