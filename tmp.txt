@@ -151,3 +151,13 @@ const
   }
 
 export default KoreaTime
+
+---
+
+type add = (a: number, b: number) => number
+type add = {
+  (a: number, b: number): number
+}
+
+---
+

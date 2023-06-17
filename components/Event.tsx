@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react'
 import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
-import { timestr } from './KoreaTime'
+import { useTimeString, timeColorizer } from '§/hooks/useTimeString'
 import dayjs from 'dayjs'
 import type { EventComponentProps } from '§/lib/types'
 import Link from 'next/link'
@@ -80,13 +80,20 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       <span className="time">{splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}</span>
       <span {...getCategoryColor(category)}>{category}</span>
       <span className="eventname"><Link target="_blank" href={link || 'https://www.twitter.com/aespa_official'}>{eventName}</Link></span>
-      <span className="remaining">
+      <span className="countdown">
         {dateTime < curDate ? 
           <>
             <span className="commenced">COMMENCED</span><br />
-            <p className="text-gray-400">{pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? '1d 0h 0m 0s ago' : `${pastTime(countdown).toString()} ago`}</p>
+            <p className="text-gray-400">
+              {
+                countdown?.match(/^0h 0m 0s/g) ? 
+                // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
+                useTimeString('1d 0h 0m 0s ago', 'remaining') : 
+                useTimeString(countdown, 'remaining')
+              }
+            </p>
           </>
-        : hlText(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown)}
+        : useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}
       </span>
       <span className="eventinfo">
         <span className="eventinfo-confirmed">

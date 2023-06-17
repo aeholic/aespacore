@@ -119,11 +119,11 @@ main {
 		&.time {}
 		&.category { @apply font-semibold text-center }
 		&.eventname { @apply font-semibold }
-		&.remaining {
+		&.countdown {
 			&:has(.commenced) {
-				@apply flex flex-col items-start;
-				.commenced { @apply text-yellow-500 p-0 border-0 -mt-1 }
-				p { @apply -mt-6 }
+				@apply flex flex-col items-start !h-0;
+				.commenced { @apply text-yellow-500 p-0 border-0 -mt-1 h-0 }
+				p { @apply -mt-6 flex flex-row h-0 }
 			}
 		}
 		&.eventinfo { &-confirmed { @apply text-slate-500 font-bold cursor-default }}
