@@ -1,6 +1,9 @@
+import '§/app/globals.css'
+
 type TimeColorizerProps = {
   counter?: string | number
   unit?: string
+  style?: string
 }
 
 type TimeString = {
@@ -34,7 +37,7 @@ interface iRemainingMode {
 export const timeColorizer = ( params: TimeColorizerProps): JSX.Element => {
   return (
     <>
-      {params.counter} <span className='countdown'> {params.unit}</span>
+      {params.counter}{params.unit && <span {...{className: 'krtime'}}> {params.unit}</span>}
     </>
   )
 }
@@ -50,9 +53,9 @@ export const useTimeString: TimeString = (str, mode) => {
     
     return (
       <>
-        {timeColorizer({counter: rgxt.hours, unit: ':'})}
-        {timeColorizer({counter: rgxt.minutes, unit: ':'})}
-        {timeColorizer({counter: rgxt.seconds})}
+        {timeColorizer({counter: rgxt.hours, unit: ':', style: 'ktime'})}
+        {timeColorizer({counter: rgxt.minutes, unit: ':', style: 'ktime'})}
+        {timeColorizer({counter: rgxt.seconds, style: 'ktime'})}
       </>
     )
   } else if (mode === 'date') {

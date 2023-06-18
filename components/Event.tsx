@@ -5,9 +5,9 @@
 import { useState, useEffect } from 'react'
 import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
-import { useTimeString, timeColorizer } from '§/hooks/useTimeString'
-import dayjs from 'dayjs'
+import { useTimeString } from '§/hooks/useTimeString'
 import type { EventComponentProps } from '§/lib/types'
+import dayjs from 'dayjs'
 import Link from 'next/link'
 
 const parse: any = HTMLReactParser

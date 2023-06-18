@@ -4,8 +4,8 @@
 
 import { useState, useEffect } from 'react'
 import HTMLReactParser from 'html-react-parser'
-import EventTimer, { TimeUnits } from '§/lib/EventTimer'
-import { useTimeString, timeColorizer } from '§/hooks/useTimeString'
+import EventTimer from '§/lib/EventTimer'
+import { useTimeString } from '§/hooks/useTimeString'
 import type { EventProps } from '§/lib/types'
 import Utils from '§/lib/utils'
 import { hlText } from './Event'
@@ -74,21 +74,14 @@ const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
     }
 
     return (
-      <>
-        <span className="koreatime self-end">
-          <div>
-            <span>Date</span>: {useTimeString(currentTime, 'date')}<br />
-            <span>Time</span>: {useTimeString(currentTime, 'time')}<br />
-            <span>Remaining</span>: {useTimeString(countdown, 'remaining')}
-          </div>
-          <span className="text-cyan-500 !p-0">Next Event:</span> 
-            <strong>{Utils.short(nextEvent[0].eventName)}</strong><br />
-        {checkCountdown(countdown)} <br />{checkCountdown(countdown2)}</span>
-        <span className="koreatime self-end">
-        <span className="text-cyan-500 !pr-2">KST:</span>
-          {useTimeString(currentTime, 'date')} &nbsp; {useTimeString(currentTime, 'time')}
-        </span> 
-      </>
+      <span className="koreatime self-end">
+        <span>Date</span>: {useTimeString(currentTime, 'date')}<br />
+        <span>Time</span>: {useTimeString(currentTime, 'time')}<br />
+        <span>Remaining</span>: {useTimeString(countdown, 'remaining')}
+        <span className="text-cyan-500 !p-0">Next Event:</span> 
+        <strong>{Utils.short(nextEvent[0].eventName)}</strong><br />
+        {checkCountdown(countdown)} <br />{checkCountdown(countdown2)}
+      </span>
     )
   }
 
