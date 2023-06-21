@@ -37,7 +37,7 @@ interface iRemainingMode {
 export const timeColorizer = ( params: TimeColorizerProps): JSX.Element => {
   return (
     <>
-      {params.counter}{params.unit && <span {...{className: 'krtime'}}> {params.unit}</span>}
+      {params.counter}{params.unit && <span {...{className: 'krtime'}}>{params.unit}</span>}
     </>
   )
 }

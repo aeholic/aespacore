@@ -1,5 +1,7 @@
 // TYPE DEFINITIONS
 
+import { JSXElementConstructor, ReactComponentElement, ReactElement } from "react"
+
 export type Children = {
   children: React.ReactNode
 }

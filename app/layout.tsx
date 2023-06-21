@@ -8,7 +8,7 @@ import type { Metadata } from 'next'
 import type { Children, EventProps } from '§/lib/types'
 import './globals.css'
 import KoreaTime from '§/components/KoreaTime'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 import { prisma } from '§/lib/db'
 
 const osw = Oswald({ 
@@ -23,7 +23,7 @@ const noto = Noto_Sans_KR({
 })
 
 export const metadata: Metadata = { 
-  title: `${Project}`,
+  title: `${Utils.Project}`,
   description: 'Your #1 Source for aespa statistics',	
 }
 
@@ -35,8 +35,7 @@ const NextEvent = async () => {
 			date || ' ' || time AS eventDateTime
 		FROM Event
 		WHERE krDateTime <= eventDateTime 
-		ORDER BY eventDateTime ASC
-		LIMIT 2;`
+		ORDER BY eventDateTime ASC`
 
 	return upcoming
 }
@@ -66,7 +65,7 @@ export default async function RootLayout({ children }: Children) {
 									<span><Link href="/brand-reputation" prefetch={true}>Brand Reputation</Link></span>
 								</div>
 								<div className="menu-right">
-                  <KoreaTime nextEvent={upcomingEvent}/>
+                  <KoreaTime {...{nextEvent: upcomingEvent}}/>
 								</div>
 							</div>
 						</nav>

@@ -2,87 +2,63 @@
 
 "use client"
 
-import { useState, useEffect } from 'react'
-import HTMLReactParser from 'html-react-parser'
+import { useState, useEffect, useRef } from 'react'
 import EventTimer from '§/lib/EventTimer'
 import { useTimeString } from '§/hooks/useTimeString'
 import type { EventProps } from '§/lib/types'
 import Utils from '§/lib/utils'
-import { hlText } from './Event'
-
-const parse: any = HTMLReactParser
 
 const KoreaTime = (props: { nextEvent: EventProps[] }): JSX.Element => {
-    
-  const 
+
+  const
     { nextEvent } = props,
-    
-    time = new EventTimer({
-      targetTime: `${nextEvent[0].date} ${nextEvent[0].time}`,
-      countdown: '00d 00h 00m 00s',
-      UTCtimezone: 540,
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-    time2 = new EventTimer({
-      targetTime: `${nextEvent[1].date} ${nextEvent[1].time}`,
-      countdown: '00d 00h 00m 00s',
-      UTCtimezone: 540,
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-      
+    [upNext, setUpNext] = useState<number>(0),
     [currentTime, setCurrentTime] = useState<string>('0000-00-00 00:00:00'),
-    [countdown, setCountdown] = useState<string>('00d 00h 00m 00s'),
-    [countdown2, setCountdown2] = useState<string>('00d 00h 00m 00s'),
-    [duration, setDuration] = useState<any[] | any>({
-      hours: '0', days: '0',
-      minutes: '0', seconds: '0'
+    [countdown, setCountdown] = useState<string>('000d 00h 00m 00s'),
+    [countdownHandler, setCountdownHandler] = useState<NodeJS.Timer>(),
+    [timerMsg, setTimerMsg] = useState<JSX.Element | null>(null),
+    audioRef = useRef<HTMLAudioElement>(null)
+
+  useEffect(() => {
+    const time = new EventTimer({
+      targetTime: `${nextEvent[upNext].date} ${nextEvent[upNext].time}`,
+      countdown: '0d 0h 0m 0s',
+      UTCtimezone: 540,
+      format: 'YYYY-MM-DD HH:mm:ss',
     })
-    
-    useEffect(() => {
-      setInterval(() => setCurrentTime(time.krTime()), 1000)
-
-      const handler = setTimeout(() => {
-        time.duration()
-        setDuration({
-          days: time.days, 
-          hours: time.hours,
-          minutes: time.minutes,
-          seconds: time.seconds
-        })
-        setCountdown(time.countdown)
-      }, 1000)
-      // setInterval(() => {
-      //   time2.duration()
-      //   setCountdown2(time2.countdown)
-
-        if (countdown.match(/-1d 0h 0m -3s/g))  {
-          alert('f')
-          clearInterval(handler)
-          setCountdown(time2.countdown)
-          // router.refresh()
-        }
-      // }, 1000)
-
-    }, [countdown])
-
-    const checkCountdown = (ctdn: any) => {
-      const started = '<span className="text-yellow-500 p-0">EVENT HAS STARTED!</span>'
-      if (ctdn.match(/^0d 0h 0m 0s|-1d 0h 0m -1s|-1d 0h 0m -2s|-1d 0h 0m -3s/g)) {
-        return parse(started)
+    setInterval(()=> setCurrentTime(time.krTime()), 1000)
+    setCountdownHandler(setInterval(() => {
+      time.duration()
+      setCountdown(time.countdown)
+    }, 1000))
+  }, [upNext])
+  
+  useEffect(() => {
+    if (countdown?.match(/^0d 0h 0m 0s/g))  {
+      if (audioRef.current) {
+        audioRef.current.play()
       }
-      return hlText(parse(ctdn))
+      setCountdown('EVENT HAS STARTED1')
+      setTimerMsg(<span className="text-yellow-500 p-0 animate-pulse">EVENT HAS STARTED!</span>)
+      setTimeout(()=> {
+        setTimerMsg(null)
+        setUpNext(upNext+1)
+      }, 5000)
+      return () => clearInterval(countdownHandler)
     }
+  }, [countdown])
 
-    return (
-      <span className="koreatime self-end">
-        <span>Date</span>: {useTimeString(currentTime, 'date')}<br />
-        <span>Time</span>: {useTimeString(currentTime, 'time')}<br />
-        <span>Remaining</span>: {useTimeString(countdown, 'remaining')}
-        <span className="text-cyan-500 !p-0">Next Event:</span> 
-        <strong>{Utils.short(nextEvent[0].eventName)}</strong><br />
-        {checkCountdown(countdown)} <br />{checkCountdown(countdown2)}
-      </span>
-    )
-  }
+  return (
+    <span className="koreatime">
+      <audio ref={audioRef} src='/illusion.mp3' hidden={true}></audio>
+      <span className="text-cyan-500 w-32">NEXT EVENT</span> 
+      <span title={nextEvent[upNext].eventName}>{Utils.short(nextEvent[upNext].eventName, 35)}</span><br />
+      <span className="text-cyan-500 w-32">REMAINING</span>
+      <span>{timerMsg ? timerMsg : useTimeString(countdown, 'remaining')}</span><br />
+      <span className="text-cyan-500 w-32">KST</span>
+      <span>{useTimeString(currentTime, 'date')}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{useTimeString(currentTime, 'time')}</span>
+    </span>
+  )
+}
 
 export default KoreaTime

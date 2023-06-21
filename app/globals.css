@@ -70,14 +70,19 @@ header {
 				@apply bg-slate-900;
 				span {
 					@apply border border-transparent border-solid
-						z-[1] leading-[2.3] inline-block h-[50px] text-lg py-1 px-5 relative;
+						z-[1] leading-[2.3] inline-block text-lg py-1 px-5 relative;
 
 					/* a { @apply inline-block h-12 text-slate-200 } */
 				}
 			}
 			.menu > span:hover { @apply h-[50px] transition ease-in border border-white border-solid }
-			.menu-right span.koreatime span.krtime  {
-				@apply text-pink-500 
+			.menu-right {
+				span.koreatime {
+					@apply m-0;
+					span.krtime  {
+						@apply text-pink-500 px-1
+					}
+				}
 			}
 		}
 	}

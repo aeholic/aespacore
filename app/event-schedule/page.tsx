@@ -1,13 +1,13 @@
 // EVENT SCHEDULE Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 import Event from '§/components/Event'
 import { prisma } from '§/lib/db'
 import type { EventProps } from '§/lib/types'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Event Schedule`,
+  title: `${Utils.Project} - Event Schedule`,
   description: 'Event schedule.'
 }
 
