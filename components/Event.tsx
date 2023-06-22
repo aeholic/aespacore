@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import { useTimeString } from '§/hooks/useTimeString'
-import type { EventComponentProps } from '§/lib/types'
+import type { EventComponentProps } from '§/types/types'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 
@@ -84,7 +84,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         {dateTime < curDate ? 
           <>
             <span className="commenced">COMMENCED</span><br />
-            <p className="text-gray-400">
+            <p className="text-gray-400 bg-red-500">
               {
                 countdown?.match(/^0h 0m 0s/g) ? 
                 // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 

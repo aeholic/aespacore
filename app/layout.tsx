@@ -5,7 +5,7 @@ import Link from 'next/link'
 import logo from '§/public/aespa_logo.png'
 import { Noto_Sans_KR, Oswald } from 'next/font/google'
 import type { Metadata } from 'next'
-import type { Children, EventProps } from '§/lib/types'
+import type { Children, EventProps } from '§/types/types'
 import './globals.css'
 import KoreaTime from '§/components/KoreaTime'
 import Utils from '§/lib/utils'
@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: Children) {
 				<header className={`${osw.className}`}>
 					<div className="flex p-5">
 						<Link href="/" className="flex title-font font-medium items-center text-white">
-							<Image id="logo" className="animate-pulse" src={logo} alt="aespa Fancams" title="aespa Fancams" />
+							<Image id="logo" src={logo} alt="aespa Fancams" title="aespa Fancams" />
 							<span className="ml-3 mr-8 text-2xl">aespacore</span>
 						</Link>
 						<nav>

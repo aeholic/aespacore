@@ -8,7 +8,7 @@ type TimeColorizerProps = {
 
 type TimeString = {
   (
-    str: string | undefined, 
+    str: string | void | undefined, 
     mode: 'date' | 'time' | 'remaining'
   ): JSX.Element | string
 }

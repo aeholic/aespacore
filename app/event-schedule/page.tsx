@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import Utils from '§/lib/utils'
 import Event from '§/components/Event'
 import { prisma } from '§/lib/db'
-import type { EventProps } from '§/lib/types'
+import type { EventProps } from '§/types/types'
 
 export const metadata: Metadata = { 
   title: `${Utils.Project} - Event Schedule`,
