@@ -12,7 +12,7 @@ import Link from 'next/link'
 
 const parse: any = HTMLReactParser
 
-const pastTime = (cntdown: string | undefined) => {
+const pastTime = (cntdown: string | undefined | Element | JSX.Element) => {
   const countdown: any = cntdown
   const if1day = countdown.replace('-1d ', '')
   const remMinus: any = if1day?.match(/(?!\-)\d+[dhms]/g)?.join(' ')
@@ -46,7 +46,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     }),
 
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
-    curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss' )
+    curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss')
 
   useEffect(() => {
     setInterval(() => {
@@ -74,35 +74,40 @@ const Event = (props: EventComponentProps) : JSX.Element => {
 
   return (
     <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 ' : '')}}>
+
       <span className="date">
         {dayjs(splitDate[1] === 'null' ? splitDate[0] : dateTime).format('YYYY ddd MMM D')}
       </span>
+
       <span className="time">{splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}</span>
+
       <span {...getCategoryColor(category)}>{category}</span>
+
       <span className="eventname"><Link target="_blank" href={link || 'https://www.twitter.com/aespa_official'}>{eventName}</Link></span>
+
       <span className="countdown">        
         {
           dateTime < curDate ? 
             <>
               <span className="commenced">COMMENCED</span>
               <div>
-                {
-                  countdown?.match(/^0h 0m 0s/g) ? 
-                  // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
-                  useTimeString('1d 0h 0m 0s ago', 'commenced') : 
-                  useTimeString(countdown, 'commenced')
-                }
+                {useTimeString(pastTime(countdown), 'commenced')}
               </div>
             </>
           : <div>{useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>
         }
       </span>
+      
       <span className="eventinfo">
+
         <span className="eventinfo-confirmed">
           {confirmed && <span title="Officially confirmed by aespa/SME">✓</span>}
         </span>
+
         <span className="eventinfo-status"></span>
+
         <span className="eventinfo-reminder"></span>
+
       </span>
       {/* <span className="staff-edit">{</span> */}
     </div>

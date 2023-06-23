@@ -107,7 +107,7 @@ main {
 /* Components */
 .event, .event-header {
 	display: grid;
-	grid-template-columns: 8rem 5rem 9rem 5fr 10rem 10rem;
+	grid-template-columns: 8rem 5rem 10rem 5fr 10rem 10rem;
 	@apply xl:text-sm sm:text-xs;
 
 	&-header {
