@@ -9,7 +9,7 @@ type TimeColorizerProps = {
 type TimeString = {
   (
     str: string | void | undefined, 
-    mode: 'date' | 'time' | 'remaining'
+    mode: 'date' | 'time' | 'remaining' | 'commenced'
   ): JSX.Element | string
 }
 
@@ -27,7 +27,7 @@ interface iDateMode {
   day?: any
 }
 
-interface iRemainingMode {
+interface iUnitMode {
   d?: any
   h?: any
   m?: any
@@ -37,7 +37,7 @@ interface iRemainingMode {
 export const timeColorizer = ( params: TimeColorizerProps): JSX.Element => {
   return (
     <>
-      {params.counter}{params.unit && <span {...{className: 'krtime'}}>{params.unit}</span>}
+      {params.counter}{params.unit && <span {...{className: params.style}}>{params.unit}</span>}
     </>
   )
 }
@@ -53,9 +53,9 @@ export const useTimeString: TimeString = (str, mode) => {
     
     return (
       <>
-        {timeColorizer({counter: rgxt.hours, unit: ':', style: 'ktime'})}
-        {timeColorizer({counter: rgxt.minutes, unit: ':', style: 'ktime'})}
-        {timeColorizer({counter: rgxt.seconds, style: 'ktime'})}
+        {timeColorizer({counter: rgxt.hours, unit: ':', style: 'krtime'})}
+        {timeColorizer({counter: rgxt.minutes, unit: ':', style: 'krtime'})}
+        {timeColorizer({counter: rgxt.seconds, style: 'krtime'})}
       </>
     )
   } else if (mode === 'date') {
@@ -68,13 +68,13 @@ export const useTimeString: TimeString = (str, mode) => {
     
     return (
       <>
-        {timeColorizer({counter: rgxd.year, unit: '-'})}
-        {timeColorizer({counter: rgxd.month, unit: '-'})}
+        {timeColorizer({counter: rgxd.year, unit: '-', style: 'krtime'})}
+        {timeColorizer({counter: rgxd.month, unit: '-', style: 'krtime'})}
         {timeColorizer({counter: rgxd.day})}
       </>
     )
   } else if (mode === 'remaining') {
-    const rgxr: iRemainingMode = {}
+    const rgxr: iUnitMode = {}
 
     rgxr.d = str?.match(/\-?\d+(?=d)/g)
     rgxr.h = str?.match(/\-?\d+(?=h)/g) 
@@ -83,10 +83,26 @@ export const useTimeString: TimeString = (str, mode) => {
 
     return (
       <>
-        {timeColorizer({counter: Math.abs(rgxr.d), unit: 'd'})}
-        {timeColorizer({counter: Math.abs(rgxr.h), unit: 'h'})}
-        {timeColorizer({counter: Math.abs(rgxr.m), unit: 'm'})}
-        {timeColorizer({counter: Math.abs(rgxr.s), unit: 's'})}
+        {timeColorizer({counter: Math.abs(rgxr.d), unit: 'd', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.h), unit: 'h', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.m), unit: 'm', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.s), unit: 's', style: 'krtime'})}
+      </>
+    )
+  } else if (mode === 'commenced') {
+    const rgxr: iUnitMode = {}
+
+    rgxr.d = str?.match(/\-?\d+(?=d)/g)
+    rgxr.h = str?.match(/\-?\d+(?=h)/g) 
+    rgxr.m = str?.match(/\-?\d+(?=m)/g)
+    rgxr.s = str?.match(/\-?\d+(?=s)/g)
+
+    return (
+      <>
+        {timeColorizer({counter: Math.abs(rgxr.d), unit: 'd', style: 'evtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.h), unit: 'h', style: 'evtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.m), unit: 'm', style: 'evtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.s), unit: 's', style: 'evtime'})}
       </>
     )
   } else {

@@ -83,17 +83,15 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       <span className="countdown">
         {dateTime < curDate ? 
           <>
-            <span className="commenced">COMMENCED</span><br />
-            <p className="text-gray-400 bg-red-500">
-              {
-                countdown?.match(/^0h 0m 0s/g) ? 
-                // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
-                useTimeString('1d 0h 0m 0s ago', 'remaining') : 
-                useTimeString(countdown, 'remaining')
-              }
-            </p>
+            <span className="commenced">COMMENCED</span>
+            {
+              countdown?.match(/^0h 0m 0s/g) ? 
+              // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
+              <div>{useTimeString('1d 0h 0m 0s ago', 'commenced')}</div> : 
+              <div>{useTimeString(countdown, 'commenced')}</div>
+            }
           </>
-        : useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}
+        : <div>{useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>}
       </span>
       <span className="eventinfo">
         <span className="eventinfo-confirmed">
