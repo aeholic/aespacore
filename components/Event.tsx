@@ -80,18 +80,22 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       <span className="time">{splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}</span>
       <span {...getCategoryColor(category)}>{category}</span>
       <span className="eventname"><Link target="_blank" href={link || 'https://www.twitter.com/aespa_official'}>{eventName}</Link></span>
-      <span className="countdown">
-        {dateTime < curDate ? 
-          <>
-            <span className="commenced">COMMENCED</span>
-            {
-              countdown?.match(/^0h 0m 0s/g) ? 
-              // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
-              <div>{useTimeString('1d 0h 0m 0s ago', 'commenced')}</div> : 
-              <div>{useTimeString(countdown, 'commenced')}</div>
-            }
-          </>
-        : <div>{useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>}
+      <span className="countdown">        
+        {
+          dateTime < curDate ? 
+            <>
+              <span className="commenced">COMMENCED</span>
+              <div>
+                {
+                  countdown?.match(/^0h 0m 0s/g) ? 
+                  // pastTime(countdown).toString()?.match(/^0h 0m 0s/g) ? 
+                  useTimeString('1d 0h 0m 0s ago', 'commenced') : 
+                  useTimeString(countdown, 'commenced')
+                }
+              </div>
+            </>
+          : <div>{useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>
+        }
       </span>
       <span className="eventinfo">
         <span className="eventinfo-confirmed">

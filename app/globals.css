@@ -34,7 +34,7 @@
 @layer utilities {
 	.trans-all3 { transition: all .3s }
 	.hoverlink { @apply text-black h-[24px] bg-[var(--secondary)] trans-all3 }
-	.unittime { @apply text-pink-500 px-1 }
+	.unittime { @apply text-pink-500 p-1 }
 }
 @layer components {
 	.link { @apply h-0 text-[var(--secondary)] inline-block hover:hoverlink trans-all3 }
@@ -107,35 +107,30 @@ main {
 /* Components */
 .event, .event-header {
 	display: grid;
-	/* grid-template-columns: 9rem 6.5rem 12rem 6fr 9rem; */
 	grid-template-columns: 8rem 5rem 9rem 5fr 10rem 10rem;
 	@apply xl:text-sm sm:text-xs;
-
-	&:hover span:not(.event-header > span) { @apply bg-slate-900 border-slate-500 }
 
 	&-header {
 		@apply mb-3;
 		span {
 			@apply border border-black rounded-md font-bold txtshadow bg-slate-800 p-1 xl:h-10 flex items-center;
-			/* @apply border border-black !py-0 !bg-slate-800 ; */
 			&:last-of-type { @apply border-r }
 		}
 	}
 }
 .event {
+	&:hover span { @apply border-slate-500 }
+	
 	& > span {
-		@apply border border-black rounded-md txtshadow bg-slate-900 xl:h-10;
-		&, div { @apply flex items-start }
-		div { @apply bg-red-500 }
+		@apply flex flex-col justify-center border border-black rounded-md txtshadow bg-slate-900 xl:h-8 px-1;
+		
 		&.date {}
 		&.time {}
-		&.category { @apply font-semibold text-center }
+		&.category { @apply font-semibold }
 		&.eventname { @apply font-semibold }
 		&.countdown {
-			@apply flex flex-col content-center;
-			span.commenced { @apply text-yellow-500 border-0 }
-			span.evtime, span.krtime { @apply unittime }
-			span.krtime { @apply border-0 align-middle }
+			span.commenced { @apply text-yellow-500 border-0 text-xs pt-[1.5px] h-3}
+			span.evtime, span.krtime { @apply unittime  }
 		}
 		/* &.eventinfo { &-confirmed { @apply text-slate-500 font-bold cursor-default }} */
 	}
