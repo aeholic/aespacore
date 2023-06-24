@@ -1,7 +1,5 @@
 // TYPE DEFINITIONS
 
-import { JSXElementConstructor, ReactComponentElement, ReactElement } from "react"
-
 export type Children = {
   children: React.ReactNode
 }
@@ -22,6 +20,7 @@ export type EventProps = {
 
 export type EventComponentProps = {
   [key: string]: React.ReactNode
+  id: string
   dateTime: string
   eventName: string
   category: string

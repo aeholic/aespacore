@@ -7,8 +7,11 @@ import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import { useTimeString } from '§/hooks/useTimeString'
 import type { EventComponentProps } from '§/types/types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { ConsoleConstructor } from 'console'
 
 const parse: any = HTMLReactParser
 
@@ -35,7 +38,7 @@ export const hlText = (str: any) => {
 const Event = (props: EventComponentProps) : JSX.Element => {
 
   const 
-    { dateTime, eventName, category, confirmed, link, image, status, reminder, edit }: EventComponentProps = props,
+    { dateTime, eventName, category, confirmed, link, image, status, reminder, id }: EventComponentProps = props,
     splitDate: Array<string> = dateTime.split(/\s/),
 
     time: iEventTimer = new EventTimer({
@@ -47,6 +50,10 @@ const Event = (props: EventComponentProps) : JSX.Element => {
 
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
     curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss')
+
+  const staffAction: Function = (mode: 'edit' | 'delete'): void => {
+    console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}`)
+  }
 
   useEffect(() => {
     setInterval(() => {
@@ -75,6 +82,13 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   return (
     <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 ' : '')}}>
 
+      <span className="staff-action flex justify-center">
+        <p className="text-center text-xl">
+          <FontAwesomeIcon className="fa-edit" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
+          <FontAwesomeIcon className="fa-xmark" icon={faSquareXmark} onClick={()=>staffAction('delete')} />
+        </p>
+      </span>
+
       <span className="date">
         {dayjs(splitDate[1] === 'null' ? splitDate[0] : dateTime).format('YYYY ddd MMM D')}
       </span>
@@ -94,12 +108,11 @@ const Event = (props: EventComponentProps) : JSX.Element => {
                 {useTimeString(pastTime(countdown), 'commenced')}
               </div>
             </>
-          : <div>{useTimeString(countdown?.match(/^0d 0h 0m 0s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>
+          : <div>{useTimeString(countdown?.match(/^0d 0h 0m [0-3]s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>
         }
       </span>
       
       <span className="eventinfo">
-
         <span className="eventinfo-confirmed">
           {confirmed && <span title="Officially confirmed by aespa/SME">✓</span>}
         </span>
@@ -107,9 +120,8 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         <span className="eventinfo-status"></span>
 
         <span className="eventinfo-reminder"></span>
-
       </span>
-      {/* <span className="staff-edit">{</span> */}
+
     </div>
   )
 }
