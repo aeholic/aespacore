@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { ConsoleConstructor } from 'console'
 
 const parse: any = HTMLReactParser
 
@@ -48,6 +47,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
 
+    [monthDivider, setMonthDivider] = useState<any>(''),
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
     curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss')
 

@@ -24,16 +24,12 @@ const
     })
   },
   editEvent = async (data: EventProps): Promise<any> => {},
+
   // getEvents = async (): Promise<any> => await prisma.event.findMany(),
-  /**
-   * Get all events. 
-   * @return Promise: query result
-   * @param status: "<" commenced | ">" scheduled"
-  */
-  getEvents = async (status: string): Promise<any> => {
-    const query = await prisma.$queryRawUnsafe(`
-      SELECT * FROM Event ORDER BY date ASC, time ASC;
-    `)
+  // getEvents = async (status: string): Promise<any> => {
+  getEvents = async (): Promise<any> => {
+    const query = await fetch('http://localhost:3000/api/aev1/events')
+    if (query.ok) return query.json()
       // SELECT * FROM Event
       //   WHERE date ${status} DATETIME('now', 'utc', '+11 hours')
       // ORDER BY date ASC, time ASC;
@@ -41,18 +37,18 @@ const
       // SELECT * FROM Event 
       //   WHERE REPLACE(date, '/', '-') ${status} DATE('now', '+9 hour')
       //   ORDER BY date ASC, time ASC
-    return query
+    // return query
   }
 
 export default async function EventSchedulePage() : Promise<JSX.Element> {
 
   const
-    commenced = await getEvents('<'),
-    scheduled = await getEvents('>'),
+    events = await getEvents(),
+    // scheduled = await getEvents('>'),
 
-    returnEvents = (event:any) => {
+    returnEvents = () => {
       // return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
-      return event.map((event: any) => (
+      return events.map((event: any) => (
         <Event key={event.id}
           dateTime={`${event.date} ${event.time}`}
           eventName={event.eventName}
@@ -81,9 +77,9 @@ export default async function EventSchedulePage() : Promise<JSX.Element> {
             <span>Countdown</span>
             <span>Info</span>
           </div>
-          {returnEvents(commenced)}
+          {returnEvents()}
           {/* <br /><div className="text-xs decoration-3">Next Event ↓</div><br /> */}
-          {returnEvents(scheduled)}
+          {/* {returnEvents(scheduled)} */}
         </div>
       </article>
     </section>
