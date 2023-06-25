@@ -9,5 +9,6 @@ export const GET_EVENTS_RAW = async () => {
   const query = await prisma.$queryRawUnsafe(`
     SELECT * FROM Event ORDER BY date ASC, time ASC;
   `)
+  console.log(query) 
   return query
 }

@@ -28,8 +28,12 @@ const
   // getEvents = async (): Promise<any> => await prisma.event.findMany(),
   // getEvents = async (status: string): Promise<any> => {
   getEvents = async (): Promise<any> => {
-    const query = await fetch('http://localhost:3000/api/aev1/events')
-    if (query.ok) return query.json()
+    const query = await fetch('http://localhost:3000/api/aev1/events', { cache: 'no-store' })
+    if (query.ok) {
+      const res = await query.json()
+      return await res.success.result
+    }
+    // if (query.ok) return await query.json()
       // SELECT * FROM Event
       //   WHERE date ${status} DATETIME('now', 'utc', '+11 hours')
       // ORDER BY date ASC, time ASC;
