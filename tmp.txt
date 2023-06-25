@@ -169,3 +169,39 @@ type add = {
 
 ---
 
+SELECT * FROM Event
+  WHERE date ${status} DATETIME('now', 'utc', '+11 hours')
+  ORDER BY date ASC, time ASC;
+
+SELECT * FROM Event 
+  WHERE REPLACE(date, '/', '-') ${status} DATE('now', '+9 hour')
+  ORDER BY date ASC, time ASC
+
+---
+
+return event.sort((a: any, b: any) => a.date+a.time > b.date+b.time ? 1 : -1).map((event: any) => (
+
+---
+
+type NextApiProps = {
+  (
+    req?: NextApiRequest, 
+    res?: NextApiResponse<ResponseProps>
+  ): Promise<any>
+}
+
+export const GET: NextApiProps = async (req, res) => {
+  const query: BodyInit | unknown = await GET_EVENTS_RAW()
+
+  return NextResponse.json({
+    success: {
+      status: 200,
+      message: 'All events retrieved.',
+      code: 'S1',
+      result: query
+    }
+  })
+} 
+
+---
+
