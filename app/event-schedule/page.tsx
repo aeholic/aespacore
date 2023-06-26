@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const 
   getEvents = async (): Promise<any> => {
-    const query = await fetch('http://localhost:3000/api/aev1/events', { cache: 'no-store' })
+    const query = await fetch('http://localhost:3000/api/events?action=getall', { cache: 'no-store' })
     if (query.ok) {
       const res = await query.json()
       if (res.success) return await res.success.result

@@ -25,13 +25,6 @@ model Event {
   updatedAt DateTime  @updatedAt
 }
 
-// Status:
-// 1 SCHEDULED
-// 2 COMMENCED
-// 3 EXPIRED
-// 4 POSTPONED
-// 5 CANCELLED
-
 model Content {
   id        String    @id @default(uuid())
   name      String    
@@ -46,22 +39,6 @@ model Content {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
-
-// Categories:
-// 1 Release
-// 2 Interview
-// 3 Fansign
-// 4 Radio
-// 5 Variety
-// 6 Reality
-// 7 BTS
-// 8 Vlog
-// 9 Live
-// 10 VOD
-// 11 Performance
-// 12 Reaction
-// [13 Fancams]
-// 14 Other
 
 model ContinualEvent {
   id        String    @id @default(uuid())

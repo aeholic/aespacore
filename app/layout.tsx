@@ -27,22 +27,17 @@ export const metadata: Metadata = {
   description: 'Your #1 Source for aespa statistics',	
 }
 
-const NextEvent = async () => {
-	const upcoming: EventProps = await prisma.$queryRaw`
-		SELECT
-			date, time, eventName, 
-			DATETIME('now', 'utc', '+11 hours') AS krDateTime,
-			date || ' ' || time AS eventDateTime
-		FROM Event
-		WHERE krDateTime <= eventDateTime 
-		ORDER BY eventDateTime ASC`
-
-	return upcoming
+const nextEvent = async (): Promise<any> => {
+	const query = await fetch('http://localhost:3000/api/events?action=next', { cache: 'no-store' })
+	if (query.ok) {
+		const res = await query.json()
+		if (res.success) return await res.success.result
+	}
 }
 
 export default async function RootLayout({ children }: Children) {
 
-	const upcomingEvent = await NextEvent()
+	const upcomingEvent = await nextEvent()
 
   return (
     <html lang='en'>
