@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Utils from '§/lib/utils'
 import Event from '§/components/Event'
 import type { EventProps } from '§/types/types'
+import type { EventApiResponse } from '../api/events/route'
 
 export const metadata: Metadata = { 
   title: `${Utils.Project} - Event Schedule`,
@@ -14,7 +15,7 @@ const
   getEvents = async (): Promise<any> => {
     const query = await fetch('http://localhost:3000/api/events?action=getall', { cache: 'no-store' })
     if (query.ok) {
-      const res = await query.json()
+      const res: EventApiResponse = await query.json()
       if (res.success) return await res.success.result
     }
   },

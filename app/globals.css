@@ -35,6 +35,8 @@
 	.trans-all3 { transition: all .3s }
 	.hoverlink { @apply text-black h-[24px] bg-[var(--secondary)] trans-all3 }
 	.unittime { @apply text-pink-500 p-1 }
+	.center-horizontal { @apply flex flex-row place-items-start text-center }
+	.center-vertical { @apply flex flex-col justify-center place-items-center align-middle }
 }
 @layer components {
 	.link { @apply h-0 text-[var(--secondary)] inline-block hover:hoverlink trans-all3 }
@@ -52,7 +54,7 @@ html, body { @apply max-w-[100vw] overflow-x-hidden }
 body {
   @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat /*container mx-auto*/;
 	font-size: small;
-	/* background-image: url('../public/bg.jpg'); */
+	background-image: url('../public/bg.jpg');
   /* background: rgb(var(--background-end-rgb)); */
 	/* font-family: var(--font); */
   color: rgb(var(--foreground-rgb));
@@ -107,7 +109,7 @@ main {
 /* Components */
 .event, .event-header {
 	display: grid;
-	grid-template-columns: 4rem 8rem 5rem 10rem 5fr 10rem 10rem;
+	grid-template-columns: 6rem 8rem 5rem 10rem 5fr 10rem 10rem;
 	@apply xl:text-sm sm:text-xs;
 
 	&-header {
@@ -124,8 +126,8 @@ main {
 	& > span {
 		@apply flex flex-col justify-center border border-black rounded-md txtshadow bg-slate-900 xl:h-8 px-1;
 		
-		&.staff-action {
-			.fa-edit, .fa-xmark { @apply hover:text-cyan-500 cursor-pointer  }
+		&.event-actions {
+			.fa-edit, .fa-xmark, .fa-clock { @apply hover:text-cyan-500 cursor-pointer  }
 		}
 		&.date {}
 		&.time {}
@@ -133,8 +135,17 @@ main {
 		&.eventname { @apply font-semibold }
 		&.countdown {
 			span.commenced { @apply text-yellow-500 border-0 text-xs pt-[1.5px] h-3}
-			span.evtime, span.krtime { @apply unittime  }
+			span.evtime, span.krtime { @apply unittime }
 		}
-		/* &.eventinfo { &-confirmed { @apply text-slate-500 font-bold cursor-default }} */
+		&.eventinfo { 
+			/* @apply table align-middle; 
+			div { @apply border border-slate-500 rounded-md table-cell text-center align-middle } */
+			@apply flex flex-row justify-start text-center; 
+			div { @apply flex border border-slate-500 rounded-md place-items-center px-3 }
+			.confirmed { 
+				@apply text-slate-500 font-bold cursor-default;
+				span { @apply w-5}
+			}
+		}
 	}
 }

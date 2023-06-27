@@ -1,11 +1,9 @@
-import { ADD_EVENT } from '../../../lib/prisma_queries';
 // API Routes: Event Schedule
 
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import { NextResponse, NextRequest } from 'next/server'
 import { GET_EVENTS, NEXT_EVENTS } from '§/lib/prisma_queries'
 
-type ResponseProps = {
+export type ResponseProps = {
   status?: string
   message?: string 
     | null 
@@ -17,7 +15,7 @@ type ResponseProps = {
     | undefined
 }
 
-type EventApiResponse = {
+export type EventApiResponse = {
   [key: string]: any
   success?: ResponseProps
   error?: ResponseProps
@@ -26,7 +24,7 @@ type EventApiResponse = {
 export const GET = async (req: NextRequest) => {
   const params = req.nextUrl.searchParams.get('action')
 
-  if (params === 'getall') {
+  if (params === 'getall') { // Get all events
     try {
       const query = await GET_EVENTS()
       return NextResponse.json<EventApiResponse>({
@@ -46,7 +44,7 @@ export const GET = async (req: NextRequest) => {
     }
   } 
   
-  else if (params === 'next') {
+  else if (params === 'next') { // Get next events
     try {
       const query = await NEXT_EVENTS()
       return NextResponse.json<EventApiResponse>({

@@ -2,13 +2,13 @@
 
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import HTMLReactParser from 'html-react-parser'
 import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import { useTimeString } from '§/hooks/useTimeString'
 import type { EventComponentProps } from '§/types/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faSquareXmark, faClock } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 
@@ -39,7 +39,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   const 
     { dateTime, eventName, category, confirmed, link, image, status, reminder, id }: EventComponentProps = props,
     splitDate: Array<string> = dateTime.split(/\s/),
-
+    twitterLink: string = 'https://www.twitter.com/aespa_official',
     time: iEventTimer = new EventTimer({
       targetTime: splitDate[1] === 'null' ? `${splitDate[0]} 00:00:00` : dateTime,
       countdown: '0d 0h 0m 0s',
@@ -51,9 +51,13 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
     curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss')
 
-  const staffAction: Function = (mode: 'edit' | 'delete'): void => {
-    console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}`)
-  }
+  const 
+    staffAction: Function = (mode: 'edit' | 'delete'): void => {
+      console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}.`)
+    },
+    userAction: Function = (reminder: boolean = false): void => {
+      console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
+    }
 
   useEffect(() => {
     setInterval(() => {
@@ -75,17 +79,36 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       cat === 'Comeback Teaser' ? '!bg-teal-700' :
       cat === 'Release' ? '!bg-violet-700' :
       cat === 'Birthday/Anniversary' ? '!bg-rose-500' :
-      cat === 'Other' || null ? '!bg-sky-900' : null
+      cat === 'Other' || null ? '!bg-sky-900' : ''
     )}
   }
 
-  return (
-    <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 ' : '')}}>
+  const getStatusClass = (stat: ReactNode | number | undefined): JSX.Element =>  {
+    return <span 
+      { ... { className: 'uppercase text-xs '+(
+        stat === 0 ? 'text-yellow-700' :
+        stat === 1 ? 'text-green-700' :
+        stat === 2 ? 'text-slate-400' :
+        stat === 3 ? 'text-orange-700' :
+        stat === 4 ? 'text-red-700' : ''
+      )}}
+    >{(
+      stat === 0 ? 'Rumored' :
+      stat === 1 ? 'Scheduled' :
+      stat === 2 ? 'Past Event' :
+      stat === 3 ? 'Postponed' :
+      stat === 4 ? 'Cancelled' : ''
+    )}</span>
+  }
 
-      <span className="staff-action flex justify-center">
+  return (
+    <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 pointer-events-none ' : '')}}>
+
+      <span className="event-actions flex justify-center">
         <p className="text-center text-xl">
           <FontAwesomeIcon className="fa-edit" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
-          <FontAwesomeIcon className="fa-xmark" icon={faSquareXmark} onClick={()=>staffAction('delete')} />
+          <FontAwesomeIcon className="fa-xmark" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
+          <FontAwesomeIcon className="fa-clock" icon={faClock} onClick={()=>userAction(true)} />
         </p>
       </span>
 
@@ -93,11 +116,15 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         {dayjs(splitDate[1] === 'null' ? splitDate[0] : dateTime).format('YYYY ddd MMM D')}
       </span>
 
-      <span className="time">{splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}</span>
+      <span className="time">
+        {splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'}
+      </span>
 
       <span {...getCategoryColor(category)}>{category}</span>
 
-      <span className="eventname"><Link target="_blank" href={link || 'https://www.twitter.com/aespa_official'}>{eventName}</Link></span>
+      <span className="eventname">
+        <Link target="_blank" href={link || twitterLink}>{eventName}</Link>
+      </span>
 
       <span className="countdown">        
         {
@@ -108,18 +135,18 @@ const Event = (props: EventComponentProps) : JSX.Element => {
                 {useTimeString(pastTime(countdown), 'commenced')}
               </div>
             </>
-          : <div>{useTimeString(countdown?.match(/^0d 0h 0m [0-3]s/g) ? 'EVENT HAS STARTED!' : countdown, 'remaining')}</div>
+          : <div>{countdown?.match(/^0d 0h 0m -[0-3]s/g) ? <span className="text-xs !font-bold text-yellow-500 animate-pulse">EVENT HAS STARTED!</span> : useTimeString(countdown, 'remaining')}</div>
         }
       </span>
       
       <span className="eventinfo">
-        <span className="eventinfo-confirmed">
-          {confirmed && <span title="Officially confirmed by aespa/SME">✓</span>}
-        </span>
+        <div className="confirmed">
+          <span title="Officially confirmed by aespa/SM Entertainment">{confirmed ? '✓' : ''}</span>
+        </div>
 
-        <span className="eventinfo-status"></span>
-
-        <span className="eventinfo-reminder"></span>
+        <div className="status">
+          {getStatusClass(status)}
+        </div>
       </span>
 
     </div>
