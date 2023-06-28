@@ -5,11 +5,10 @@ import Link from 'next/link'
 import logo from '§/public/aespa_logo.png'
 import { Noto_Sans_KR, Oswald } from 'next/font/google'
 import type { Metadata } from 'next'
-import type { Children, EventProps } from '§/types/types'
+import type { Children } from '§/types/types'
 import './globals.css'
 import KoreaTime from '§/components/KoreaTime'
 import Utils from '§/lib/utils'
-import { prisma } from '§/lib/db'
 
 const osw = Oswald({ 
 	subsets: ['latin'], 
@@ -58,6 +57,7 @@ export default async function RootLayout({ children }: Children) {
 									<span><Link href="/content-timeline" prefetch={true}>Content Timeline</Link></span>
 									<span><Link href="/fancams" prefetch={true}>Fancams</Link></span>
 									<span><Link href="/brand-reputation" prefetch={true}>Brand Reputation</Link></span>
+									<span><Link href="/fun" prefetch={true}>Fun Stuff</Link></span>
 								</div>
 								<div className="menu-right">
                   <KoreaTime {...{nextEvent: upcomingEvent}}/>

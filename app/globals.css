@@ -149,3 +149,9 @@ main {
 		}
 	}
 }
+.memory {
+	@apply grid w-[500px] h-[500px] border-2 /*bg-slate-700*/ border-black my-[35px] mx-[20px] p-5;
+	grid-template-areas: '. . . .';
+	
+	.card { @apply border-2 border-black cursor-pointer /*bg-slate-500*/ hover:brightness-150 }
+}
