@@ -90,7 +90,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         stat === 1 ? 'text-teal-600' :
         stat === 2 ? 'text-slate-400' :
         stat === 3 ? 'text-orange-500' :
-        stat === 4 ? 'text-red-800' : ''
+        stat === 4 ? 'text-red-500' : ''
       )}}
     >{(
       stat === 0 ? 'Rumored' :

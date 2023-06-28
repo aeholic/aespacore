@@ -103,6 +103,7 @@
 		[x] toggle alarm
 		[ ] toggle reminder
 		[ ] view change
+		[ ] toggle specific events/categories
 	[x] alarm sound
 	[ ] reminder sound
 	[ ] auto-remove the 6th commenced event
@@ -123,14 +124,13 @@
 	[ ] ~automatic continual events:
 		[ ] auto-add daily
 		[ ] auto-add weekly
-	[x] EventTimer display fixed
-	[ ] toggle specific events/categories
 	
 -----
 
 # Bugs / Chatched Up ToDos
 	[ ] fix fa-symbols
 	[ ] fix initial countdown/remaining values
+	[x] fix EventTimer display
 
 -----
 
