@@ -98,26 +98,40 @@
 
 -----
 
-# Event Schedule ToDos:
-	[ ] reminder 
+# Event Schedule ToDos
+	[ ] ~user action:
+		[x] toggle alarm
+		[ ] toggle reminder
+		[ ] view change
 	[x] alarm sound
 	[ ] reminder sound
-	[ ] auto delete the 6th commenced event
+	[ ] auto-remove the 6th commenced event
+	[ ] past events table
 	[ ] tile view
-	[ ] view change
 	[ ] responsive
-  ( [ ] image ) 
-	[ ] status
-	[ ] confirmed
-	[ ] insert link sources
-	[ ] admin panel: add/edit/delete Event
-  ( [ ] month dividier )
-  ( [ ] framer motions )
+( [ ] image ) 
+	[x] status
+	[x] confirmed
+	[x] insert link sources
+	[ ] ~admin actions: 
+		[ ] add event
+		[ ] edit event
+		[ ] delete event
+( [ ] month dividier )
+( [ ] framer motions )
 	[x] next event auto update
-	[ ] automatic continual events
+	[ ] ~automatic continual events:
+		[ ] auto-add daily
+		[ ] auto-add weekly
 	[x] EventTimer display fixed
-	[ ] toggle categories
+	[ ] toggle specific events/categories
 	
+-----
+
+# Bugs / Chatched Up ToDos
+	[ ] fix fa-symbols
+	[ ] fix initial countdown/remaining values
+
 -----
 
 # Birthday/Anniversary

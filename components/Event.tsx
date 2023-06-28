@@ -86,11 +86,11 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   const getStatusClass = (stat: ReactNode | number | undefined): JSX.Element =>  {
     return <span 
       { ... { className: 'uppercase text-xs '+(
-        stat === 0 ? 'text-yellow-700' :
-        stat === 1 ? 'text-green-700' :
+        stat === 0 ? 'text-yellow-800' :
+        stat === 1 ? 'text-teal-600' :
         stat === 2 ? 'text-slate-400' :
-        stat === 3 ? 'text-orange-700' :
-        stat === 4 ? 'text-red-700' : ''
+        stat === 3 ? 'text-orange-500' :
+        stat === 4 ? 'text-red-800' : ''
       )}}
     >{(
       stat === 0 ? 'Rumored' :
@@ -106,9 +106,9 @@ const Event = (props: EventComponentProps) : JSX.Element => {
 
       <span className="event-actions flex justify-center">
         <p className="text-center text-xl">
-          <FontAwesomeIcon className="fa-edit" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
-          <FontAwesomeIcon className="fa-xmark" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
-          <FontAwesomeIcon className="fa-clock" icon={faClock} onClick={()=>userAction(true)} />
+          <FontAwesomeIcon className="fa-edit" title="Edit event" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
+          <FontAwesomeIcon className="fa-xmark" title="Delete event" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
+          <FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} />
         </p>
       </span>
 
@@ -130,9 +130,9 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         {
           dateTime < curDate ? 
             <>
-              <span className="commenced">COMMENCED</span>
-              <div>
-                {useTimeString(pastTime(countdown), 'commenced')}
+              {/* <span className="commenced">COMMENCED</span> */}
+              <div className="text-slate-400">
+                {useTimeString(pastTime(countdown), 'commenced')} ago
               </div>
             </>
           : <div>{countdown?.match(/^0d 0h 0m -[0-3]s/g) ? <span className="text-xs !font-bold text-yellow-500 animate-pulse">EVENT HAS STARTED!</span> : useTimeString(countdown, 'remaining')}</div>
