@@ -50,7 +50,7 @@ export default async function RootLayout({ children }: Children) {
 						</Link>
 						<nav>
 							<div id="topnavi">
-								<div className="menu">
+								{/* <div className="menu">
 									<span><Link href="/" prefetch={true}>Home</Link></span>
 									<span><Link href="/event-schedule" prefetch={true}>Event Schedule</Link></span>
 									<span><Link href="/achievements" prefetch={true}>Achievements</Link></span>
@@ -61,7 +61,7 @@ export default async function RootLayout({ children }: Children) {
 								</div>
 								<div className="menu-right">
                   <KoreaTime {...{nextEvent: upcomingEvent}}/>
-								</div>
+								</div> */}
 							</div>
 						</nav>
 					</div>

@@ -150,11 +150,42 @@ main {
 	}
 }
 .memory {
-	@apply grid w-[500px] h-[500px] border-2 /*bg-slate-700*/ border-black my-[35px] mx-[20px] p-5;
-	grid-template-areas: '. . . .';
+	@apply grid h-[600px] w-[600px] border-2 bg-slate-700 border-black m-[35px] p-5;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	gap: 3px;
 	
-	.card { @apply border-2 border-black cursor-pointer /*bg-slate-500*/ hover:brightness-75 }
-	.covered { @apply brightness-50 }
+	.card-wrap {
+		@apply w-full h-full bg-cover;
+		.card { 
+			@apply border-2 h-full border-black cursor-pointer bg-cover;
+			&.flipped { @apply border-2 border-yellow-500 }
+			/* &.flipback { 
+				transition: all .5s ease-out;
+				filter: brightness(0)
+			} */
+			&.solved { @apply opacity-0 pointer-events-none border}
+			&.disappear {
+				transform: scale(3);
+				transition: all .3s ease-out;
+				animation-delay: .3s;
+				animation-name: fadeOut;
+				animation-delay: .3s;
+				animation-duration: .3s;
+				visibility: hidden;
+			}
+			@keyframes fadeOut {
+				from { 
+					opacity: 1;
+					visibility: visible;
+				}
+				to { 
+					opacity: 0;
+					visibility: hidden; 
+				}
+			}
+		}
+	}
 }
 
 /* .memory-game {
