@@ -35,6 +35,7 @@
 	.trans-all3 { transition: all .3s }
 	.hoverlink { @apply text-black h-[24px] bg-[var(--secondary)] trans-all3 }
 	.unittime { @apply text-pink-500 p-1 }
+	.covered { @apply bg-[url('/aespa_logo.png')] }
 	.center-horizontal { @apply flex flex-row place-items-start text-center }
 	.center-vertical { @apply flex flex-col justify-center place-items-center align-middle }
 }
@@ -159,18 +160,18 @@ main {
 		@apply w-full h-full bg-cover;
 		.card { 
 			@apply border-2 h-full border-black cursor-pointer bg-cover;
-			&.flipped { @apply border-2 border-yellow-500 }
-			/* &.flipback { 
-				transition: all .5s ease-out;
-				filter: brightness(0)
-			} */
+			&.flipped { @apply border-2 border-yellow-500 brightness-100 }
+			&.flipback { 
+				animation-name: flipBack;
+				animation-delay: .5s;
+				animation-duration: .5s;
+				@apply brightness-0;
+			}
 			&.solved { @apply opacity-0 pointer-events-none border}
 			&.disappear {
 				transform: scale(3);
 				transition: all .3s ease-out;
-				animation-delay: .3s;
 				animation-name: fadeOut;
-				animation-delay: .3s;
 				animation-duration: .3s;
 				visibility: hidden;
 			}
@@ -184,8 +185,16 @@ main {
 					visibility: hidden; 
 				}
 			}
+			@keyframes flipBack {
+				0% { @apply brightness-100 }
+				100% { @apply brightness-0 }
+			}
 		}
 	}
+}
+
+.default-deck {
+	@apply z-10 absolute
 }
 
 /* .memory-game {

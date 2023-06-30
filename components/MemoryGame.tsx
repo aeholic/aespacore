@@ -2,8 +2,10 @@
 
 'use client'
 
-import React from 'react'
+import React, { Dispatch, EventHandler } from 'react'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import logo from '§/public/aespa_logo.png'
 import _ from 'underscore'
 
 let 
@@ -33,33 +35,54 @@ const MemoryGame = (): JSX.Element => {
 			// {id: 18, match: 9, face: 'bg-cyan-500'}
 		],
 		[table, setTable] = useState<any>(),
-		[deck, setDeck] = useState<any>(_.shuffle(cards))
+		[deck, setDeck] = useState<any>(_.shuffle(cards)),
+		[cardIndex, setCardIndex] = useState<any>(null)
 
 	const handleCardClick = (match: number, id: number) => {
+		let settings = {
+			delay: 500,
+			flipped: ' flipped',
+			hide: ' disappear',
+			show: ' brightness-100',
+			flipback: ' flipback',
+			disable: ' pointer-events-none'
+		}
+
 		if (firstCard.match !== 0) {
+
 			if (firstCard.match !== match) {
-				deck.map((v:any) => v.face = v.face.replace(' flipped brightness-100', ''))
+				setTimeout(()=> {
+					const flipDeck = deck.filter((v:any) => v.face = 
+						v.face
+							.replace(settings.flipped, '')
+							.replace(settings.disable, ''))
+
+					setDeck(flipDeck)
+				}, settings.delay)
+
 				firstCard.match = 0
-			} else if (firstCard.match === match) {
+			} else {
 				solvedCards.push(firstCard.match)
-				const newDeck = deck.filter((v:any) => {
-					if (solvedCards.includes(v.match))  {
-						return v.face = v.face+' disappear brightness-100'
-					} else return v.face
-				})
-				setDeck(newDeck)
-				deck.map((v:any) => v.face = v.face.replace(' flipped brightness-100', ''))
+
+				setTimeout(()=> {
+					const newDeck = deck.filter((v:any) => v.face = 
+						solvedCards.includes(v.match) ? 
+							v.face+settings.hide+settings.show : v.face)
+
+					setDeck(newDeck)
+				}, settings.delay)
+
 				firstCard.match = 0
 			}
 		} else {
 			firstCard.match = match
 			firstCard.id = id
 		}
-		const flipped = deck.filter((v:any) => {
-			if (v.match === firstCard.match && firstCard.id === v.id) {
-				return v.face = v.face+' flipped brightness-100' 
-			} else return v.face = v.face
-		})
+
+		const flipped = deck.filter((v:any) => v.face = 
+			id === v.id ? 
+				v.face+settings.flipped+settings.disable : v.face)
+		
 		setDeck(flipped)
 	}
 
@@ -67,12 +90,18 @@ const MemoryGame = (): JSX.Element => {
 		setTable(
 			deck.map(
 				(c: any): JSX.Element => (
-					// <div key={c.id} className="card-wrap bg-[url('/aespa_logo.png')]">
 					<div key={c.id} className="card-wrap">
+						{/* <Image src={logo} alt="" /> */}
 						<div
 							key={c.id} 
-							className={`card ${c.face} brightness-0`} 
-							onClick={() => handleCardClick(c.match, c.id)}>
+							className={`card ${c.face} brightness-0`}
+							onClick={() => handleCardClick(c.match, c.id)}
+						>
+							{/* <img 
+								onClick={()=>setCardIndex(c.id)} 
+								className={`default-deck ${cardIndex === c.id ? 'opacity-0' : ''}`} 
+								src="/aespa_logo.png"
+							/> */}
 						</div>
 					</div>
 				)
