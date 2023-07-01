@@ -86,20 +86,30 @@ const MemoryGame = (): JSX.Element => {
 		setDeck(flipped)
 	}
 
+	// handleCardClick.getCard = (c: any) => {
+	// 	if (cardIndex === c.id) {
+	// 		return true
+	// 	} else {
+	// 		cards.filter((v:any) => {
+	// 			v.match === c.match 
+	// 		})
+	// 	}
+	// }
+
 	const randomCards: VoidFunction = () => {
 		setTable(
 			deck.map(
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
-						{/* <Image src={logo} alt="" /> */}
 						<div
 							key={c.id} 
 							className={`card ${c.face} brightness-0`}
 							onClick={() => handleCardClick(c.match, c.id)}
 						>
+							{/* <Image src={logo} alt="" /> */}
 							{/* <img 
 								onClick={()=>setCardIndex(c.id)} 
-								className={`default-deck ${cardIndex === c.id ? 'opacity-0' : ''}`} 
+								className={`default-deck ${handleCardClick.getCard(c) ? 'opacity-0' : ''}`} 
 								src="/aespa_logo.png"
 							/> */}
 						</div>
