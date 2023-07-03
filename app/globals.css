@@ -150,6 +150,7 @@ main {
 		}
 	}
 }
+
 .memory {
 	@apply grid h-[600px] w-[600px] border-2 bg-slate-700 border-black m-[35px] p-5;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -159,7 +160,7 @@ main {
 	.card-wrap {
 		@apply w-full h-full bg-cover;
 		.card { 
-			@apply border-2 h-full border-black cursor-pointer bg-cover brightness-0;
+			@apply border-2 h-full border-black cursor-pointer bg-cover brightness-100;
 			&.flipped { @apply border-2 border-yellow-500 brightness-100 }
 			&.flipback { 
 				animation-name: flipBack;
@@ -192,60 +193,4 @@ main {
 		}
 	}
 }
-
-.default-deck {
-	@apply z-10 absolute
-}
-
-/* .memory-game {
-  text-align: center;
-} */
-
-/* h1 {
-  margin-bottom: 20px;
-} */
-
-/* .card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
-
-/* .card {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  perspective: 1000px;
-  transition: transform 0.5s;
-}
-
-.card-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 20px;
-  font-weight: bold;
-} */
-
-/* .flipped {
-  transform: rotateY(180deg);
-}
-
-.solved {
-  background-color: #ccc;
-  cursor: default;
-} */
-
-/* @media (max-width: 600px) {
-  .card {
-    width: 80px;
-    height: 80px;
-  }
-
-  .card-content {
-    font-size: 16px;
-  }
-} */
+.default-deck { @apply z-10 }
