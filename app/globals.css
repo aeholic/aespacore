@@ -159,7 +159,7 @@ main {
 	.card-wrap {
 		@apply w-full h-full bg-cover;
 		.card { 
-			@apply border-2 h-full border-black cursor-pointer bg-cover;
+			@apply border-2 h-full border-black cursor-pointer bg-cover brightness-0;
 			&.flipped { @apply border-2 border-yellow-500 brightness-100 }
 			&.flipback { 
 				animation-name: flipBack;

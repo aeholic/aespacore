@@ -103,7 +103,7 @@ const MemoryGame = (): JSX.Element => {
 					<div key={c.id} className="card-wrap">
 						<div
 							key={c.id} 
-							className={`card ${c.face} brightness-0`}
+							className={`card ${c.face}`}
 							onClick={() => handleCardClick(c.match, c.id)}
 						>
 							{/* <Image src={logo} alt="" /> */}
