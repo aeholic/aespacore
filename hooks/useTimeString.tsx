@@ -9,7 +9,7 @@ type TimeColorizerProps = {
 type TimeString = {
   (
     str: string | void | undefined, 
-    mode: 'date' | 'time' | 'remaining' | 'commenced'
+    mode: 'date' | 'time' | 'remaining' | 'commenced' | 'stopwatch'
   ): JSX.Element | string
 }
 
@@ -32,6 +32,13 @@ interface iUnitMode {
   h?: any
   m?: any
   s?: any
+}
+
+interface iStopWatchMode {
+  hr?: any
+  min?: any
+  sec?: any
+  ms?: any
 }
 
 export const timeColorizer = ( params: TimeColorizerProps): JSX.Element => {
@@ -105,7 +112,23 @@ export const useTimeString: TimeString = (str, mode) => {
         {timeColorizer({counter: Math.abs(rgxr.s), unit: 's', style: 'evtime'})}
       </>
     )
-  } else {
+  } else if (mode === 'stopwatch') {
+    const rgxr: iStopWatchMode = {}
+
+    rgxr.hr = str?.match(/^\d+(?=\:)/g)
+    rgxr.min = str?.match(/\:(\d+)\:/g)![0] 
+    rgxr.sec = str?.match(/\:(\d+)\./g)![0]
+    rgxr.ms = str?.match(/\.(\d+)/g)![0]
+
+    return (
+      <>
+        {timeColorizer({counter: Math.abs(rgxr.hr), unit: ':', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.min), unit: ':', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.sec), unit: ':', style: 'krtime'})}
+        {timeColorizer({counter: Math.abs(rgxr.ms), unit: '.', style: 'krtime'})}
+      </>
+    )
+  }else {
     return <>{str}</>
   }
 }

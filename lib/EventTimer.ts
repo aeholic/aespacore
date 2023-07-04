@@ -11,7 +11,6 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import duration from 'dayjs/plugin/duration'
-import { type } from 'os'
 
 dayjs.extend(utc)
 dayjs.extend(duration)

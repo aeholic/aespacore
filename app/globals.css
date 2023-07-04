@@ -158,7 +158,7 @@ main {
 	gap: 3px;
 	
 	.card-wrap {
-		@apply w-full h-full bg-cover;
+		@apply w-full h-full bg-cover hover:brightness-50;
 		.card { 
 			@apply border-2 h-full border-black cursor-pointer bg-cover brightness-100;
 			&.flipped { @apply border-2 border-yellow-500 brightness-100 }

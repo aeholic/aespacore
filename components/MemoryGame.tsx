@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import logo from '§/public/aespa_logo.png'
 import _ from 'underscore'
+import { useTimeString } from '§/hooks/useTimeString'
 
 interface CardClickProps {
 	(currentCard: CardProps) : void
@@ -17,6 +18,7 @@ type CardProps = {
 	covered: boolean
 	face: string
 }
+
 type CheckedCardsProps = {
 	id: number
 	match: number 
@@ -29,32 +31,89 @@ let checkedCards: CheckedCardsProps = {
 	solved: []
 }
 
+let 
+	timeBegan: any = null,
+	timeStopped: any = null,
+	stoppedDuration: any = 0, 
+	started: any = null,
+
+	notYetStopped: boolean = true
+
 const 
 	cards: Array<CardProps> = [],
 	
 	addCards = (newFace: Array<string>): void => {
-		const abc = (i: number, a: number): CardProps => {
+		const newCards = (i: number, a: number): CardProps => {
 			return { id: i++, match: a + 1, covered: true, face: newFace[a]}
 		}
 		for (let i = 1; i <= newFace.length; i++) {
 			for (let a = 0; a < newFace.length; a++) {
 				cards.push(
-					abc(i++, a), abc(i++, a)
+					newCards(i++, a), newCards(i++, a)
 				)
 			}
 		}
 	}
 
 addCards([
-	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]',
-	'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.gif)]', 'bg-[url(/memory/g2.gif)]'
+	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]'
+	// 'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.gif)]', 'bg-[url(/memory/g2.gif)]'
 ])
 
 const MemoryGame: React.FC = (): JSX.Element => {
+
+	const StopWatch = class {
 	
+		private clockRunning() {
+			const 
+				currentTime:any = new Date(), 
+				timeElapsed = new Date(currentTime - timeBegan - stoppedDuration), 
+				hour = timeElapsed.getUTCHours(), 
+				min = timeElapsed.getUTCMinutes(), 
+				sec = timeElapsed.getUTCSeconds(), 
+				ms = timeElapsed.getUTCMilliseconds()
+	
+			setWatch(
+				(hour > 9 ? hour : "0" + hour) + ":" + 
+				(min > 9 ? min : "0" + min) + ":" + 
+				(sec > 9 ? sec : "0" + sec) + "." + 
+				(ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms)
+			)
+		}
+	
+		public start() {
+			if (timeBegan === null) {
+					timeBegan = new Date()
+			}
+			if (timeStopped !== null) {
+					// @ts-ignore
+					stoppedDuration += (new Date() - timeStopped)
+			}
+	
+			started = setInterval(this.clockRunning, 10)
+		}
+	
+		public stop() {
+			timeStopped = new Date()
+			clearInterval(started)
+		}
+	
+		public reset() {
+			clearInterval(started)
+			stoppedDuration = 0
+			timeBegan = null
+			timeStopped = null
+			notYetStopped = true
+
+			setWatch('00:00:00.000')
+		}
+	}
+
 	const
 		[table, setTable] = useState<Array<JSX.Element>>(),
-		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards))
+		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards)),
+		[watch, setWatch] = useState<any>('00:00:00.000'),
+		stopWatch = new StopWatch()
 		
 	const handleCardClick: CardClickProps = currentCard => {
 		let settings = {
@@ -66,6 +125,11 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			disable: ' pointer-events-none'
 		}
 
+		if (notYetStopped) {
+			stopWatch.start()
+			notYetStopped = false
+		}
+
 		if (checkedCards.match !== 0) {
 			if (checkedCards.match !== currentCard.match) {
 				setTimeout(()=> {
@@ -75,7 +139,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 							v.covered = true
 						]
 					})
-
+			
 					setDeck(flipDeck)
 				}, settings.delay)
 
@@ -93,6 +157,18 @@ const MemoryGame: React.FC = (): JSX.Element => {
 					})
 
 					setDeck(newDeck)
+
+					if (checkedCards.solved.length === deck.length / 2) {
+						stopWatch.stop()
+						checkedCards.id = 0
+						checkedCards.solved = []
+
+						const resetDeck = deck.filter((v: CardProps): string => {
+							return v.face = v.face.replace(settings.hide, '').replace(settings.show, '')
+						})
+	
+						setDeck(resetDeck)
+					}
 				}, settings.delay)
 
 				checkedCards.match = 0
@@ -132,7 +208,18 @@ const MemoryGame: React.FC = (): JSX.Element => {
 
 	useEffect(() => randomCards(), [deck])
 
-	return <div className='memory'>{table}</div>
+	return (
+		<>
+			{/* <span>Time: {useTimeString(watch, 'stopwatch')}</span><br /> */}
+			<span className="font-bold text-lg">Time: {watch}</span><br />
+			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.start()}>Start</button>&nbsp;
+			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.stop()}>Stop</button>&nbsp;
+			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.reset()}>Reset</button>&nbsp;
+			<div className='memory'>
+				{table}
+			</div>
+		</>
+	)
 }
 
 export default MemoryGame
