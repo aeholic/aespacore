@@ -2,7 +2,7 @@
 
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import logo from '§/public/aespa_logo.png'
 import _ from 'underscore'
@@ -12,6 +12,12 @@ interface CardClickProps {
 	(currentCard: CardProps) : void
 }
 
+interface IStopWatch {
+	start: () => void
+	stop: () => void
+	reset: () => void
+}
+
 type CardProps = {
 	id: number
 	match: number
@@ -19,25 +25,31 @@ type CardProps = {
 	face: string
 }
 
-type CheckedCardsProps = {
+let checkedCards: {
 	id: number
 	match: number 
 	solved: Array<number>
-}
-
-let checkedCards: CheckedCardsProps = {
+	flipped: number
+} = {
 	id: 0,
 	match: 0,
-	solved: []
+	solved: [],
+	flipped: 0
 }
 
-let 
-	timeBegan: any = null,
-	timeStopped: any = null,
-	stoppedDuration: any = 0, 
-	started: any = null,
-
-	notYetStopped: boolean = true
+const time: {
+	timeBegan: any
+	timeStopped: Date | null
+	stoppedDuration: number
+	started: any
+	notYetStopped: boolean
+} = {
+	timeBegan: null,
+	timeStopped: null,
+	stoppedDuration: 0, 
+	started: null,
+	notYetStopped: true
+}
 
 const 
 	cards: Array<CardProps> = [],
@@ -56,19 +68,20 @@ const
 	}
 
 addCards([
-	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]'
-	// 'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.gif)]', 'bg-[url(/memory/g2.gif)]'
+	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]',
+	'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.gif)]', 'bg-[url(/memory/g2.gif)]',
+	'bg-[url(/memory/k3.png)]', 'bg-[url(/memory/w3.png)]', 'bg-[url(/memory/n3.png)]', 'bg-[url(/memory/g3.png)]',
+	'bg-[url(/memory/k4.png)]',	'bg-[url(/memory/w4.png)]', 'bg-[url(/memory/n4.png)]', 'bg-[url(/memory/g4.png)]',
+																													'bg-[url(/memory/n5.png)]',	'bg-[url(/memory/g5.png)]'
 ])
 
 const MemoryGame: React.FC = (): JSX.Element => {
 
-	const StopWatch = class {
-	
-		private clockRunning() {
+	const StopWatch = class implements IStopWatch {	
+		private clockRunning(): void {
 			const 
 				currentTime:any = new Date(), 
-				timeElapsed = new Date(currentTime - timeBegan - stoppedDuration), 
-				hour = timeElapsed.getUTCHours(), 
+				timeElapsed = new Date(currentTime - time.timeBegan! - time.stoppedDuration), 
 				min = timeElapsed.getUTCMinutes(), 
 				sec = timeElapsed.getUTCSeconds(), 
 				ms = timeElapsed.getUTCMilliseconds()
@@ -80,29 +93,29 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			)
 		}
 	
-		public start() {
-			if (timeBegan === null) {
-					timeBegan = new Date()
+		public start(): void {
+			if (time.timeBegan === null) {
+					time.timeBegan = new Date()
 			}
-			if (timeStopped !== null) {
+			if (time.timeStopped !== null) {
 					// @ts-ignore
-					stoppedDuration += (new Date() - timeStopped)
+					stoppedDuration += (new Date() - time.timeStopped)
 			}
 	
-			started = setInterval(this.clockRunning, 10)
+			time.started = setInterval(this.clockRunning, 10)
 		}
 	
-		public stop() {
-			timeStopped = new Date()
-			clearInterval(started)
+		public stop(): void {
+			time.timeStopped = new Date()
+			clearInterval(time.started)
 		}
 	
-		public reset() {
-			clearInterval(started)
-			stoppedDuration = 0
-			timeBegan = null
-			timeStopped = null
-			notYetStopped = true
+		public reset(): void {
+			clearInterval(time.started)
+			time.stoppedDuration = 0
+			time.timeBegan = null
+			time.timeStopped = null
+			time.notYetStopped = true
 
 			setWatch('00:00.000')
 		}
@@ -111,9 +124,9 @@ const MemoryGame: React.FC = (): JSX.Element => {
 	const
 		[table, setTable] = useState<Array<JSX.Element>>(),
 		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards)),
+		[result, setResult] = useState<JSX.Element | null>(null),
 		[watch, setWatch] = useState<any>('00:00.000'),
-		stopWatch = new StopWatch(),
-		memoryRef = useRef<HTMLDivElement>(null)
+		stopWatch = new StopWatch()
 		
 	const handleCardClick: CardClickProps = currentCard => {
 		let settings = {
@@ -125,9 +138,9 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			disable: ' pointer-events-none'
 		}
 
-		if (notYetStopped) {
+		if (time.notYetStopped) {
 			stopWatch.start()
-			notYetStopped = false
+			time.notYetStopped = false
 		}
 
 		if (checkedCards.match !== 0) {
@@ -155,14 +168,11 @@ const MemoryGame: React.FC = (): JSX.Element => {
 							return v.face
 						 }
 					})
-
-					if (checkedCards.solved.length === deck.length / 2) {
-						stopWatch.stop()
+					
+					if (checkedCards.solved.length === cards.length / 2) {
 						setWatch(watch)
 						checkedCards.id = 0
 						checkedCards.solved = []
-
-						memoryRef.current!.innerHTML = `<div>COMPLETED!<br />Your time is <strong class="!text-[6rem]">${watch}</strong></div>`
 					}
 
 					setDeck(newDeck)
@@ -203,14 +213,29 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		)
 	}
 
-	useEffect(() => randomCards(), [deck])
+	useEffect(() => {
+		randomCards()
+		if (checkedCards.solved.length === cards.length / 2) {
+			stopWatch.stop()
+			setResult(
+				<div className="!text-2xl">
+					<strong className="!py-10">COMPLETED!</strong><br />
+					Your time is<br /><br />
+					<strong className="!text-[4rem]">{useTimeString(watch, 'stopwatch')}</strong>
+				</div>
+			)
+		}
+	}, [deck])
 
 	return (
 		<>
-			{/* <span>Time: {useTimeString(watch, 'stopwatch')}</span><br /> */}
-			{/* <span className="font-bold text-lg">Time: {watch}</span><br /> */}
-			<div className='memory' ref={memoryRef}>
-				{table}
+			<div className="flex flex-row">
+				<div className='memory'>
+					{table}
+				</div>
+				<div>
+					{ !result ? <span className="font-bold text-lg w-10">Time: {useTimeString(watch, 'stopwatch')}<br /></span> : result }
+				</div>
 			</div>
 		</>
 	)

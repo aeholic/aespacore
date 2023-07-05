@@ -35,7 +35,6 @@ interface iUnitMode {
 }
 
 interface iStopWatchMode {
-  hr?: any
   min?: any
   sec?: any
   ms?: any
@@ -115,17 +114,15 @@ export const useTimeString: TimeString = (str, mode) => {
   } else if (mode === 'stopwatch') {
     const rgxr: iStopWatchMode = {}
 
-    rgxr.hr = str?.match(/^\d+(?=\:)/g)
-    rgxr.min = str?.match(/\:(\d+)\:/g)![0] 
-    rgxr.sec = str?.match(/\:(\d+)\./g)![0]
-    rgxr.ms = str?.match(/\.(\d+)/g)![0]
+    rgxr.min = str?.match(/^\d+/g)
+    rgxr.sec = str?.match(/\d+/g)![1]
+    rgxr.ms = str?.match(/\d+/g)![2]
 
     return (
       <>
-        {timeColorizer({counter: Math.abs(rgxr.hr), unit: ':', style: 'krtime'})}
-        {timeColorizer({counter: Math.abs(rgxr.min), unit: ':', style: 'krtime'})}
-        {timeColorizer({counter: Math.abs(rgxr.sec), unit: ':', style: 'krtime'})}
-        {timeColorizer({counter: Math.abs(rgxr.ms), unit: '.', style: 'krtime'})}
+        {timeColorizer({counter: rgxr.min, unit: 'm ', style: ' font-bold unittime'})}
+        {timeColorizer({counter: rgxr.sec, unit: 's ', style: ' font-bold unittime'})}
+        {timeColorizer({counter: rgxr.ms, unit: 'ms ', style: ' font-bold unittime'})}
       </>
     )
   }else {

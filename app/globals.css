@@ -179,6 +179,7 @@ main {
 				animation-duration: .3s;
 				visibility: hidden;
 			}
+			.default-deck { @apply z-10 h-full }
 			@keyframes fadeOut {
 				from { 
 					opacity: 1;
@@ -196,4 +197,3 @@ main {
 		}
 	}
 }
-.default-deck { @apply z-10 }
