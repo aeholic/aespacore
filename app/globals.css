@@ -50,7 +50,10 @@
 
 
 /* General */
-* { @apply outline-none }
+* { 
+	@apply outline-none select-none;
+	&:focus { outline: none }
+}
 html, body { @apply max-w-[100vw] overflow-x-hidden }
 body {
   @apply m-6 bg-gray-700 bg-fixed bg-center bg-no-repeat /*container mx-auto*/;
@@ -158,9 +161,9 @@ main {
 	gap: 3px;
 	
 	.card-wrap {
-		@apply w-full h-full bg-cover hover:brightness-50;
+		@apply w-full h-full bg-cover;
 		.card { 
-			@apply border-2 h-full border-black cursor-pointer bg-cover brightness-100;
+			@apply border-2 h-full border-black cursor-pointer bg-cover hover:brightness-50 brightness-100;
 			&.flipped { @apply border-2 border-yellow-500 brightness-100 }
 			&.flipback { 
 				animation-name: flipBack;

@@ -2,7 +2,7 @@
 
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import logo from '§/public/aespa_logo.png'
 import _ from 'underscore'
@@ -74,10 +74,10 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				ms = timeElapsed.getUTCMilliseconds()
 	
 			setWatch(
-				(hour > 9 ? hour : "0" + hour) + ":" + 
-				(min > 9 ? min : "0" + min) + ":" + 
-				(sec > 9 ? sec : "0" + sec) + "." + 
-				(ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms)
+				(hour > 9 ? hour : '0' + hour) + ':' + 
+				(min > 9 ? min : '0' + min) + ':' + 
+				(sec > 9 ? sec : '0' + sec) + '.' + 
+				(ms > 99 ? ms : ms > 9 ? '0' + ms : '00' + ms)
 			)
 		}
 	
@@ -113,7 +113,8 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		[table, setTable] = useState<Array<JSX.Element>>(),
 		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards)),
 		[watch, setWatch] = useState<any>('00:00:00.000'),
-		stopWatch = new StopWatch()
+		stopWatch = new StopWatch(),
+		memoryRef = useRef<HTMLDivElement>(null)
 		
 	const handleCardClick: CardClickProps = currentCard => {
 		let settings = {
@@ -156,19 +157,16 @@ const MemoryGame: React.FC = (): JSX.Element => {
 						 }
 					})
 
-					setDeck(newDeck)
-
 					if (checkedCards.solved.length === deck.length / 2) {
 						stopWatch.stop()
+						setWatch(watch)
 						checkedCards.id = 0
 						checkedCards.solved = []
 
-						const resetDeck = deck.filter((v: CardProps): string => {
-							return v.face = v.face.replace(settings.hide, '').replace(settings.show, '')
-						})
-	
-						setDeck(resetDeck)
+						memoryRef.current!.innerHTML = `<span>COMPLETED!<br />Your time is <strong className="!text-2xl">${watch}</strong></span>`
 					}
+
+					setDeck(newDeck)
 				}, settings.delay)
 
 				checkedCards.match = 0
@@ -198,7 +196,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
 						<div key={c.id} className={`card ${c.face}`} onClick={() => handleCardClick(c)}>
-							<Image alt='aespa_logo.png' className={`default-deck ${c.covered ? 'opacity-100' : 'opacity-0'}`} src={logo} priority={true}/>
+							<Image draggable={false} alt='aespa_logo.png' className={`default-deck ${c.covered ? 'opacity-100' : 'opacity-0'}`} src={logo} priority={true}/>
 						</div>
 					</div>
 				)
@@ -215,7 +213,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.start()}>Start</button>&nbsp;
 			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.stop()}>Stop</button>&nbsp;
 			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.reset()}>Reset</button>&nbsp;
-			<div className='memory'>
+			<div className='memory' ref={memoryRef}>
 				{table}
 			</div>
 		</>
