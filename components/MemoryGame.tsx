@@ -74,7 +74,6 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				ms = timeElapsed.getUTCMilliseconds()
 	
 			setWatch(
-				(hour > 9 ? hour : '0' + hour) + ':' + 
 				(min > 9 ? min : '0' + min) + ':' + 
 				(sec > 9 ? sec : '0' + sec) + '.' + 
 				(ms > 99 ? ms : ms > 9 ? '0' + ms : '00' + ms)
@@ -105,14 +104,14 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			timeStopped = null
 			notYetStopped = true
 
-			setWatch('00:00:00.000')
+			setWatch('00:00.000')
 		}
 	}
 
 	const
 		[table, setTable] = useState<Array<JSX.Element>>(),
 		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards)),
-		[watch, setWatch] = useState<any>('00:00:00.000'),
+		[watch, setWatch] = useState<any>('00:00.000'),
 		stopWatch = new StopWatch(),
 		memoryRef = useRef<HTMLDivElement>(null)
 		
@@ -163,7 +162,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 						checkedCards.id = 0
 						checkedCards.solved = []
 
-						memoryRef.current!.innerHTML = `<span>COMPLETED!<br />Your time is <strong className="!text-2xl">${watch}</strong></span>`
+						memoryRef.current!.innerHTML = `<div>COMPLETED!<br />Your time is <strong class="!text-[6rem]">${watch}</strong></div>`
 					}
 
 					setDeck(newDeck)
@@ -209,10 +208,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 	return (
 		<>
 			{/* <span>Time: {useTimeString(watch, 'stopwatch')}</span><br /> */}
-			<span className="font-bold text-lg">Time: {watch}</span><br />
-			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.start()}>Start</button>&nbsp;
-			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.stop()}>Stop</button>&nbsp;
-			<button className="px-2 bg-slate-800 hover:bg-slate-700" onClick={()=>stopWatch.reset()}>Reset</button>&nbsp;
+			{/* <span className="font-bold text-lg">Time: {watch}</span><br /> */}
 			<div className='memory' ref={memoryRef}>
 				{table}
 			</div>
