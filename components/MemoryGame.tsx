@@ -27,12 +27,14 @@ type CardProps = {
 
 let checkedCards: {
 	id: number
-	match: number 
+	match: number
+	locked: boolean
 	solved: Array<number>
 	flipped: Array<number>
 } = {
 	id: 0,
 	match: 0,
+	locked: false,
 	solved: [],
 	flipped: []
 }
@@ -130,11 +132,14 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		
 	const handleCardClick: CardClickProps = currentCard => {
 		let settings = {
-			delay: 2000,
-			hide: ' disappear',
-			show: ' brightness-100',
+			unMatchDelay: 1000,
+			matchDelay: 500,
+			solved: ' solved',
+			disable: ' pointer-events-none',
 			bgflip: ' bgflip',
-			deckflip: ' deckflip'
+			bgflipBack: ' bgflip-back',
+			deckflip: ' deckflip',
+			deckflipBack: ' deckflip-back'
 		}
 
 		if (time.notYetStopped) {
@@ -148,23 +153,16 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			if (checkedCards.match !== currentCard.match) {
 				setTimeout(()=> {
 					setDeck(deck.filter((v: CardProps): Array<string | boolean> | undefined => {
-						if (checkedCards.flipped.length >= 2) {
-							if (checkedCards.flipped.slice(-2).includes(v.id)) {
-								console.log(checkedCards.flipped)
+							if (checkedCards.flipped.includes(v.id)) {
 								return [
-									v.face = v.face+' bgflip-back'.replace(settings.bgflip, ''),
-									v.deckface = v.deckface+' deckflip-back'.replace(settings.deckflip, ''),
+									v.face = v.face+settings.bgflipBack.replace(settings.bgflip, ''),
+									v.deckface = v.deckface+settings.deckflipBack.replace(settings.deckflip, ''),
 								]
-							} //else return [v.face, v.deckface]
-							else {
-								return [
-									v.face = v.face.replace(' bgflip-back', ''),
-									v.deckface = v.deckface.replace(' deckflip-back', ''),
-								]
-							}
-						}
+							} else return [v.face, v.deckface]
 					}))
-				}, settings.delay)
+
+					checkedCards.locked = false
+				}, settings.unMatchDelay)
 				
 				checkedCards.match = 0
 			} else {
@@ -175,10 +173,8 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				setTimeout(()=> {
 					setDeck(deck.filter((v: CardProps): string => {
 						if (checkedCards.solved.includes(v.match)) {
-							return v.face = v.face+settings.hide
-						 } else {
-							return v.face
-						 }
+							return v.face = v.face+settings.solved
+						 } else return v.face
 					}))
 					
 					if (checkedCards.solved.length === cards.length / 2) {
@@ -186,8 +182,9 @@ const MemoryGame: React.FC = (): JSX.Element => {
 						checkedCards.id = 0
 						checkedCards.solved = []
 					}
-				}, settings.delay)
-
+					checkedCards.locked = false
+				}, settings.matchDelay)
+				
 				checkedCards.match = 0
 			}
 		} else {
@@ -196,23 +193,22 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		}
 
 		// When Flipped
-		setDeck(deck.filter((v: CardProps): Array<string | boolean> | string => {
+		setDeck(deck.filter((v: CardProps): Array<string | boolean> => {
 			if (currentCard.id === v.id) {
-				// if (checkedCards.flipped.length >= 2) {
-				// 	checkedCards.flipped = []
-				// 	checkedCards.flipped.push(currentCard.id)
-				// } else {
-				// 	checkedCards.flipped.push(currentCard.id)
-				// }
-				checkedCards.flipped.push(currentCard.id)
-				console.log(checkedCards.flipped)
+				if (checkedCards.flipped.length >= 2) {
+					checkedCards.flipped = []
+					checkedCards.flipped.push(currentCard.id)
+				} else {
+					checkedCards.flipped.push(currentCard.id)
+				}
+				if (checkedCards.flipped.length === 2) {
+					checkedCards.locked = true
+				}
 				return [
-					v.face = v.face.replace(' bgflip-back', '')+settings.bgflip,
-					v.deckface = v.deckface.replace(' deckflip-back', '')+settings.deckflip
+					v.face = v.face.replace(settings.bgflipBack, '')+settings.bgflip,
+					v.deckface = v.deckface.replace(settings.deckflipBack, '')+settings.deckflip
 				]
-			} else {
-				return v.face
-			}
+			} else return [v.face, v.deckface]
 		}))
 	}
 
@@ -221,8 +217,8 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			deck.map(
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
-						<div key={c.id} className={`card ${c.face}`} onClick={() => handleCardClick(c)}>
-							<Image draggable={false} width={50} alt='backside.png' className={`default-deck ${c.deckface}`} src={backside} priority={true}/>
+						<div key={c.id} className={`card ${c.face} ${checkedCards.locked ? 'pointer-events-none' : ''}`} onClick={() => handleCardClick(c)}>
+							<Image draggable={false} alt='backside.png' className={`default-deck ${c.deckface}`} src={backside} priority={true}/>
 						</div>
 					</div>
 				)

@@ -38,6 +38,18 @@
 	.covered { @apply bg-[url('/aespa_logo.png')] }
 	.center-horizontal { @apply flex flex-row place-items-start text-center }
 	.center-vertical { @apply flex flex-col justify-center place-items-center align-middle }
+	.flip-transition {
+		transition: transform 0.5s;
+		transform-style: preserve-3d;
+	}
+	.flip-back {
+		@apply flip-transition;
+		transform: rotateY(180deg);
+	}
+	.flip-forth {
+		@apply flip-transition;
+		transform: rotateY(0deg);
+	}
 }
 @layer components {
 	.link { @apply h-0 text-[var(--secondary)] inline-block hover:hoverlink trans-all3 }
@@ -161,69 +173,54 @@ main {
 	gap: 3px;
 	
 	.card-wrap {
-		@apply w-full h-full bg-cover;
+		@apply w-full h-full bg-cover !rounded-md;
+		perspective: 200px;
 		.card { 
-			@apply border-2 h-full border-black cursor-pointer bg-cover hover:brightness-50 brightness-100 rounded-md;
-			/* perspective: 1000px; */
-			/* &.flipback { 
-				animation-name: flipBack;
-				animation-delay: 2s;
-				animation-duration: 0.6s;
-				@apply brightness-0;
-			} */
-			/* &.solved { @apply opacity-0 pointer-events-none border } */
-			&.disappear {
-				transform: scale(3);
-				transition: all .3s ease-out;
-				transition-delay: 2s;
-				animation-name: solved;
-				animation-delay: 2s;
+			@apply border-2 h-full border-black cursor-pointer bg-cover hover:brightness-50 brightness-100 overflow-hidden !rounded-md;
+			perspective: 200px;
+			&.solved { 
+				/* animation-name: solved;
+				animation-delay: 0s;
 				animation-duration: .3s;
-				visibility: hidden;
+				visibility: hidden; */
+				animation-name: blink;
+				animation-duration: .3s;
+				@apply border-2 border-yellow-500;
 			}
-			&.bgflip {
-				transition: transform 0.5s;
-				transform-style: preserve-3d;
-				transform: rotateY(180deg);
-				pointer-events: none;
-			}
-			&.bgflip-back {
-				transition: transform 0.5s;
-				transform-style: preserve-3d;
-				transform: rotateY(0deg);
-			}
+			&.bgflip { @apply flip-back pointer-events-none }
+			&.bgflip-back { @apply flip-forth }
 			img.default-deck { 
-				perspective: 1000px;
+				transform: scale(1.5);
 				&.deckflip {
-					transition: transform 0.5s;
-					transform-style: preserve-3d;
-					transform: rotateY(180deg);
+					@apply flip-back;
 					-webkit-backface-visibility: hidden;
   				backface-visibility: hidden;
 				}
-				&.deckflip-back {
-					transition: transform 0.5s;
-					transform-style: preserve-3d;
-					transform: rotateY(0deg);
+				&.deckflip-back { 
+					@apply flip-forth; 
+					transform: scale(1.5);
 				}
 			}
-
 			/* @keyframes solved {
 				from { 
+					transform: scale(1);
 					opacity: 1;
 					visibility: visible;
 				}
 				to { 
+					transform: scale(3);
 					opacity: 0;
 					visibility: hidden; 
 				}
 			} */
-			@keyframes flipBack {
-				0% {
-					
+			@keyframes blink {
+				0% { 
+					filter: brightness(1)
 				}
+				50% { filter: brightness(2) }
 				100% { 
-				
+					filter: brightness(1);
+					@apply border-2 border-yellow-500
 				}
 			}
 		}
