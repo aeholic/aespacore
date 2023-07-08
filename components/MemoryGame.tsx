@@ -132,7 +132,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		
 	const handleCardClick: CardClickProps = currentCard => {
 		let settings = {
-			unMatchDelay: 1000,
+			unMatchDelay: 825,
 			matchDelay: 500,
 			solved: ' solved',
 			disable: ' pointer-events-none',

@@ -187,6 +187,10 @@ main {
 				animation-duration: .3s;
 				@apply border-2 border-yellow-500;
 			}
+			&.unmatched {
+				animation-name: blink-red;
+				animation-duration: .5s;
+			}
 			&.bgflip { @apply flip-back pointer-events-none }
 			&.bgflip-back { @apply flip-forth }
 			img.default-deck { 
@@ -222,6 +226,12 @@ main {
 					filter: brightness(1);
 					@apply border-2 border-yellow-500
 				}
+			}
+			@keyframes blink-red {
+				0% { translate: 0px }
+				40% { translate: -10px }
+				60% { translate: 10px }
+				100% { translate: 0px }
 			}
 		}
 	}
