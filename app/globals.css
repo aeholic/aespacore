@@ -189,7 +189,7 @@ main {
 			}
 			&.unmatched {
 				animation-name: blink-red;
-				animation-duration: .5s;
+				animation-duration: 0.6s;
 			}
 			&.bgflip { @apply flip-back pointer-events-none }
 			&.bgflip-back { @apply flip-forth }
@@ -229,8 +229,9 @@ main {
 			}
 			@keyframes blink-red {
 				0% { translate: 0px }
-				40% { translate: -10px }
-				60% { translate: 10px }
+				5% { translate: -10px }
+				10% { translate: 10px }
+				15% { translate: 0px }
 				100% { translate: 0px }
 			}
 		}
