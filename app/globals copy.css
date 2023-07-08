@@ -164,14 +164,13 @@ main {
 		@apply w-full h-full bg-cover;
 		.card { 
 			@apply border-2 h-full border-black cursor-pointer bg-cover hover:brightness-50 brightness-100 rounded-md;
-			/* perspective: 1000px; */
-			/* &.flipback { 
+			&.flipback { 
 				animation-name: flipBack;
 				animation-delay: 2s;
-				animation-duration: 0.6s;
+				animation-duration: .5s;
 				@apply brightness-0;
-			} */
-			/* &.solved { @apply opacity-0 pointer-events-none border } */
+			}
+			&.solved { @apply opacity-0 pointer-events-none border }
 			&.disappear {
 				transform: scale(3);
 				transition: all .3s ease-out;
@@ -182,33 +181,35 @@ main {
 				visibility: hidden;
 			}
 			&.bgflip {
-				transition: transform 0.5s;
+				transition: transform 0.6s;
 				transform-style: preserve-3d;
 				transform: rotateY(180deg);
 				pointer-events: none;
+				border: 1px red solid;
 			}
 			&.bgflip-back {
-				transition: transform 0.5s;
+				transition: transform 0.6s;
 				transform-style: preserve-3d;
 				transform: rotateY(0deg);
 			}
-			img.default-deck { 
+			.default-deck { 
+				@apply z-10 h-full;
 				perspective: 1000px;
 				&.deckflip {
-					transition: transform 0.5s;
+					transition: transform 0.6s;
 					transform-style: preserve-3d;
 					transform: rotateY(180deg);
 					-webkit-backface-visibility: hidden;
   				backface-visibility: hidden;
 				}
 				&.deckflip-back {
-					transition: transform 0.5s;
+					transition: transform 0.6s;
 					transform-style: preserve-3d;
 					transform: rotateY(0deg);
 				}
 			}
 
-			/* @keyframes solved {
+			@keyframes solved {
 				from { 
 					opacity: 1;
 					visibility: visible;
@@ -217,7 +218,7 @@ main {
 					opacity: 0;
 					visibility: hidden; 
 				}
-			} */
+			}
 			@keyframes flipBack {
 				0% {
 					

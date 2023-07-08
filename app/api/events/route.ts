@@ -5,14 +5,9 @@ import { GET_EVENTS, NEXT_EVENTS } from '§/lib/prisma_queries'
 
 export type ResponseProps = {
   status?: string
-  message?: string 
-    | null 
-    | unknown
-  code: string 
-    | undefined
-  result?: XMLHttpRequestBodyInit 
-    | unknown 
-    | undefined
+  message?: string | null | unknown
+  code: string | undefined
+  result?: XMLHttpRequestBodyInit | unknown | undefined
 }
 
 export type EventApiResponse = {

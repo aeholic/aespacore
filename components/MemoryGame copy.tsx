@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import backside from '§/public/memory/backside.png'
+import logo from '§/public/aespa_logo.png'
 import _ from 'underscore'
 import { useTimeString } from '§/hooks/useTimeString'
 
@@ -21,20 +21,20 @@ interface IStopWatch {
 type CardProps = {
 	id: number
 	match: number
+	covered: boolean
 	face: string
-	deckface: string
 }
 
 let checkedCards: {
 	id: number
 	match: number 
 	solved: Array<number>
-	flipped: Array<number>
+	flipped: number
 } = {
 	id: 0,
 	match: 0,
 	solved: [],
-	flipped: []
+	flipped: 0
 }
 
 const time: {
@@ -56,7 +56,7 @@ const
 	
 	addCards = (newFace: Array<string>): void => {
 		const newCards = (i: number, a: number): CardProps => {
-			return { id: i++, match: a + 1, face: newFace[a], deckface: ''}
+			return { id: i++, match: a + 1, covered: true, face: newFace[a]}
 		}
 		for (let i = 1; i <= newFace.length; i++) {
 			for (let a = 0; a < newFace.length; a++) {
@@ -133,8 +133,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			delay: 2000,
 			hide: ' disappear',
 			show: ' brightness-100',
-			bgflip: ' bgflip',
-			deckflip: ' deckflip'
+			bgflip: ' bgflip'
 		}
 
 		if (time.notYetStopped) {
@@ -148,24 +147,20 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			if (checkedCards.match !== currentCard.match) {
 				setTimeout(()=> {
 					setDeck(deck.filter((v: CardProps): Array<string | boolean> | undefined => {
-						if (checkedCards.flipped.length >= 2) {
-							if (checkedCards.flipped.slice(-2).includes(v.id)) {
-								console.log(checkedCards.flipped)
-								return [
-									v.face = v.face+' bgflip-back'.replace(settings.bgflip, ''),
-									v.deckface = v.deckface+' deckflip-back'.replace(settings.deckflip, ''),
-								]
-							} //else return [v.face, v.deckface]
-							else {
-								return [
-									v.face = v.face.replace(' bgflip-back', ''),
-									v.deckface = v.deckface.replace(' deckflip-back', ''),
-								]
-							}
+						if (currentCard.match === v.id) {
+							return [
+								v.face = v.face+' bgflip-back'.replace(settings.bgflip, ''),
+								v.covered = true
+							]
+						} else {
+							return [
+								v.face = v.face,
+								v.covered = true
+							]
 						}
 					}))
 				}, settings.delay)
-				
+
 				checkedCards.match = 0
 			} else {
 
@@ -198,17 +193,9 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		// When Flipped
 		setDeck(deck.filter((v: CardProps): Array<string | boolean> | string => {
 			if (currentCard.id === v.id) {
-				// if (checkedCards.flipped.length >= 2) {
-				// 	checkedCards.flipped = []
-				// 	checkedCards.flipped.push(currentCard.id)
-				// } else {
-				// 	checkedCards.flipped.push(currentCard.id)
-				// }
-				checkedCards.flipped.push(currentCard.id)
-				console.log(checkedCards.flipped)
 				return [
-					v.face = v.face.replace(' bgflip-back', '')+settings.bgflip,
-					v.deckface = v.deckface.replace(' deckflip-back', '')+settings.deckflip
+					v.face = v.face+settings.bgflip,
+					v.covered = false
 				]
 			} else {
 				return v.face
@@ -222,7 +209,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
 						<div key={c.id} className={`card ${c.face}`} onClick={() => handleCardClick(c)}>
-							<Image draggable={false} width={50} alt='backside.png' className={`default-deck ${c.deckface}`} src={backside} priority={true}/>
+							<Image draggable={false} alt='aespa_logo.png' className={`default-deck ${c.covered ? '' : 'deckflip'}`} src={logo} priority={true}/>
 						</div>
 					</div>
 				)
