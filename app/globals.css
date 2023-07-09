@@ -32,24 +32,17 @@
 	h3 { @apply text-lg m-0 }
 }
 @layer utilities {
-	.trans-all3 { transition: all .3s }
+	.trans-all3 { @apply transition-[all_0.3s] }
 	.hoverlink { @apply text-black h-[24px] bg-[var(--secondary)] trans-all3 }
 	.unittime { @apply text-pink-500 p-1 }
 	.covered { @apply bg-[url('/aespa_logo.png')] }
+
 	.center-horizontal { @apply flex flex-row place-items-start text-center }
 	.center-vertical { @apply flex flex-col justify-center place-items-center align-middle }
-	.flip-transition {
-		transition: transform 0.5s;
-		transform-style: preserve-3d;
-	}
-	.flip-back {
-		@apply flip-transition;
-		transform: rotateY(180deg);
-	}
-	.flip-forth {
-		@apply flip-transition;
-		transform: rotateY(0deg);
-	}
+
+	.flip-transition { transition: transform 0.5s; transform-style: preserve-3d }
+	.flip-back { @apply flip-transition; transform: rotateY(180deg) }
+	.flip-forth { @apply flip-transition; transform: rotateY(0deg) }
 }
 @layer components {
 	.link { @apply h-0 text-[var(--secondary)] inline-block hover:hoverlink trans-all3 }
@@ -124,9 +117,8 @@ main {
 
 /* Components */
 .event, .event-header {
-	display: grid;
+	@apply grid xl:text-sm;
 	grid-template-columns: 6rem 8rem 5rem 10rem 5fr 11.5rem 10rem;
-	@apply xl:text-sm ;
 
 	&-header {
 		@apply mb-3;
@@ -168,8 +160,12 @@ main {
 
 .memory {
 	@apply grid h-[600px] w-[600px] border-2 bg-slate-700 border-black m-[35px] p-5;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	/* 36 Cards */
+	/* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;	
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; */
+	/* 16 Cards */
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	gap: 3px;
 	
 	.card-wrap {
@@ -178,64 +174,34 @@ main {
 		.card { 
 			@apply border-2 h-full border-black cursor-pointer bg-cover hover:brightness-50 brightness-100 overflow-hidden !rounded-md;
 			perspective: 200px;
-			&.solved { 
-				/* animation-name: solved;
-				animation-delay: 0s;
-				animation-duration: .3s;
-				visibility: hidden; */
-				animation-name: blink;
-				animation-duration: .3s;
-				@apply border-2 border-yellow-500;
+
+			&.solved {
+				@apply animate-[solved_0.3s] border-2 border-yellow-500;
+				@keyframes solved {
+					0%, 100% { filter: brightness(1) }
+					50% { filter: brightness(2.5) }
+				}
 			}
 			&.unmatched {
-				animation-name: blink-red;
-				animation-duration: 0.6s;
+				@apply animate-[uneven_0.6s];
+				@keyframes uneven {
+					0%, 35%, 100% { translate: 0px }
+					5% { translate: -10px }
+					20% { translate: 10px }
+				}
 			}
 			&.bgflip { @apply flip-back pointer-events-none }
 			&.bgflip-back { @apply flip-forth }
 			img.default-deck { 
-				transform: scale(1.5);
+				@apply scale-[1.5];
 				&.deckflip {
 					@apply flip-back;
 					-webkit-backface-visibility: hidden;
   				backface-visibility: hidden;
 				}
-				&.deckflip-back { 
-					@apply flip-forth; 
-					transform: scale(1.5);
-				}
-			}
-			/* @keyframes solved {
-				from { 
-					transform: scale(1);
-					opacity: 1;
-					visibility: visible;
-				}
-				to { 
-					transform: scale(3);
-					opacity: 0;
-					visibility: hidden; 
-				}
-			} */
-			@keyframes blink {
-				0% { 
-					filter: brightness(1)
-				}
-				50% { filter: brightness(2) }
-				100% { 
-					filter: brightness(1);
-					@apply border-2 border-yellow-500
-				}
-			}
-			@keyframes blink-red {
-				0% { translate: 0px }
-				5% { translate: -10px }
-				10% { translate: 10px }
-				15% { translate: 0px }
-				100% { translate: 0px }
+				&.deckflip-back { @apply flip-forth !scale-[1.5] }
 			}
 		}
 	}
 }
 button.restart { @apply bg-slate-700 font-bold p-2 hover:bg-slate-300 hover:text-black }
-

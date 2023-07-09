@@ -1,8 +1,6 @@
 // TYPE DEFINITIONS
 
-export type Children = {
-  children: React.ReactNode
-}
+export type Children = { children: React.ReactNode }
 
 export type EventProps = {
   [key: string]: React.ReactNode
@@ -28,9 +26,7 @@ export type EventComponentProps = {
   link?: string
 }
 
-export interface CardClickProps {
-	(currentCard: CardProps) : void
-}
+export interface ICardClickProps { (currentCard: CardProps) : void }
 
 export interface IStopWatch {
 	start: () => void
