@@ -237,3 +237,5 @@ main {
 		}
 	}
 }
+button.restart { @apply bg-slate-700 font-bold p-2 hover:bg-slate-300 hover:text-black }
+

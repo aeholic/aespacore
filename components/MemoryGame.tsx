@@ -212,7 +212,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
 						<div key={c.id} className={`card ${c.face} ${checkedCards.locked && 'pointer-events-none'}`} onClick={() => handleCardClick(c)}>
-							<Image draggable={false} alt='backside.png' className={`opacity-75 default-deck ${c.deckface}`} src={backside} priority={true}/>
+							<Image draggable={false} alt='backside.png' className={`default-deck ${c.deckface}`} src={backside} priority={true}/>
 						</div>
 					</div>
 				)
@@ -237,12 +237,12 @@ const MemoryGame: React.FC = (): JSX.Element => {
 	return (
 		<>
 			<div className="flex flex-row">
-				<button onClick={()=>restartMemory()}>Restart</button>
 				<div className='memory'>
 					{table}
 				</div>
 				<div>
-					{ !result ? <span className="font-bold text-lg w-10">Time: {useTimeString(watch, 'stopwatch')}<br /></span> : result }
+					{ !result ? <span className="font-bold text-lg w-10">Time: {useTimeString(watch, 'stopwatch')}<br /></span> : result }<br />
+					<button className="restart" onClick={()=>restartMemory()}>Restart</button>
 				</div>
 			</div>
 		</>
