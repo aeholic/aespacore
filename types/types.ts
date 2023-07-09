@@ -27,3 +27,20 @@ export type EventComponentProps = {
   confirmed: boolean
   link?: string
 }
+
+export interface CardClickProps {
+	(currentCard: CardProps) : void
+}
+
+export interface IStopWatch {
+	start: () => void
+	stop: () => void
+	reset: () => void
+}
+
+export type CardProps = {
+	id: number
+	match: number
+	face: string
+	deckface: string
+}

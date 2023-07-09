@@ -6,26 +6,10 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import backside from '§/public/memory/backside.png'
 import _ from 'underscore'
+import type { CardProps, CardClickProps, IStopWatch } from '§/types/types'
 import { useTimeString } from '§/hooks/useTimeString'
 
-interface CardClickProps {
-	(currentCard: CardProps) : void
-}
-
-interface IStopWatch {
-	start: () => void
-	stop: () => void
-	reset: () => void
-}
-
-type CardProps = {
-	id: number
-	match: number
-	face: string
-	deckface: string
-}
-
-let checkedCards: {
+const checkedCards: {
 	id: number
 	match: number
 	locked: boolean
@@ -70,19 +54,19 @@ const
 	}
 
 addCards([
-	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]'
-	/*'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.gif)]', 'bg-[url(/memory/g2.gif)]',
+	'bg-[url(/memory/k1.png)]', 'bg-[url(/memory/w1.png)]', 'bg-[url(/memory/n1.png)]', 'bg-[url(/memory/g1.png)]',
+	'bg-[url(/memory/k2.png)]', 'bg-[url(/memory/w2.png)]', 'bg-[url(/memory/n2.png)]', 'bg-[url(/memory/g2.png)]',
 	'bg-[url(/memory/k3.png)]', 'bg-[url(/memory/w3.png)]', 'bg-[url(/memory/n3.png)]', 'bg-[url(/memory/g3.png)]',
-	'bg-[url(/memory/k4.png)]',	'bg-[url(/memory/w4.png)]', 'bg-[url(/memory/n4.png)]', 'bg-[url(/memory/g4.png)]',
-																													'bg-[url(/memory/n5.png)]',	'bg-[url(/memory/g5.png)]'*/
+	'bg-[url(/memory/k4.png)]',															'bg-[url(/memory/n4.png)]',	'bg-[url(/memory/g4.png)]'
 ])
 
 const MemoryGame: React.FC = (): JSX.Element => {
 
 	const StopWatch = class implements IStopWatch {	
+		
 		private clockRunning(): void {
 			const 
-				currentTime:any = new Date(), 
+				currentTime: any = new Date(), 
 				timeElapsed = new Date(currentTime - time.timeBegan! - time.stoppedDuration), 
 				min = timeElapsed.getUTCMinutes(), 
 				sec = timeElapsed.getUTCSeconds(), 
@@ -96,14 +80,10 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		}
 	
 		public start(): void {
-			if (time.timeBegan === null) {
-					time.timeBegan = new Date()
-			}
-			if (time.timeStopped !== null) {
-					// @ts-ignore
-					time.stoppedDuration += (new Date() - time.timeStopped)
-			}
-	
+			if (time.timeBegan === null) time.timeBegan = new Date()
+			// @ts-ignore
+			if (time.timeStopped !== null) time.stoppedDuration += (new Date() - time.timeStopped)
+
 			time.started = setInterval(this.clockRunning, 10)
 		}
 	
@@ -124,7 +104,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 	}
 
 	const
-		[table, setTable] = useState<Array<JSX.Element>>(),
+		[table, setTable] = useState<Array<JSX.Element> | null>(null),
 		[deck, setDeck] = useState<Array<CardProps>>(_.shuffle(cards)),
 		[result, setResult] = useState<JSX.Element | null>(null),
 		[watch, setWatch] = useState<string>('00:00.000'),
@@ -154,12 +134,12 @@ const MemoryGame: React.FC = (): JSX.Element => {
 			if (checkedCards.match !== currentCard.match) {
 				setTimeout(()=> {
 					setDeck(deck.filter((v: CardProps): Array<string | boolean> | undefined => {
-							if (checkedCards.flipped.includes(v.id)) {
-								return [
-									v.face = v.face+settings.bgflipBack.replace(settings.bgflip, ''),
-									v.deckface = v.deckface+settings.deckflipBack.replace(settings.deckflip, ''),
-								]
-							} else return [v.face, v.deckface]
+						if (checkedCards.flipped.includes(v.id)) {
+							return [
+								v.face = v.face+settings.bgflipBack.replace(settings.bgflip, ''),
+								v.deckface = v.deckface+settings.deckflipBack.replace(settings.deckflip, ''),
+							]
+						} else return [v.face, v.deckface]
 					}))
 
 					checkedCards.locked = false
@@ -210,13 +190,29 @@ const MemoryGame: React.FC = (): JSX.Element => {
 		}))
 	}
 
+	const restartMemory = () => {
+		stopWatch.reset()
+		checkedCards.id = 0
+		checkedCards.match = 0
+		checkedCards.locked = false
+		checkedCards.solved = []
+		checkedCards.flipped = []
+		setTable(null)
+		setDeck(_.shuffle(deck.filter((v: CardProps): Array<string> => [
+			v.face = v.face.replace(/\ssolved/g, '').replace(' bgflip', '').replace(' bgflip-back', ''),
+			v.deckface = v.deckface.replace(' deckflip', '').replace(' deckflip-back', '')
+		])))
+		setResult(null)
+		addCards([])
+	}
+
 	const randomCards: VoidFunction = (): void => {
 		setTable(
 			deck.map(
 				(c: any): JSX.Element => (
 					<div key={c.id} className="card-wrap">
 						<div key={c.id} className={`card ${c.face} ${checkedCards.locked && 'pointer-events-none'}`} onClick={() => handleCardClick(c)}>
-							<Image draggable={false} alt='backside.png' className={`default-deck ${c.deckface}`} src={backside} priority={true}/>
+							<Image draggable={false} alt='backside.png' className={`opacity-75 default-deck ${c.deckface}`} src={backside} priority={true}/>
 						</div>
 					</div>
 				)
@@ -241,6 +237,7 @@ const MemoryGame: React.FC = (): JSX.Element => {
 	return (
 		<>
 			<div className="flex flex-row">
+				<button onClick={()=>restartMemory()}>Restart</button>
 				<div className='memory'>
 					{table}
 				</div>
