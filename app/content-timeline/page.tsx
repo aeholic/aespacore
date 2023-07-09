@@ -1,10 +1,10 @@
 // CONTENT TIMELINE Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Content Timeline`,
+  title: `${Utils.Project} - Content Timeline`,
   description: 'Content timeline.'
 }
 

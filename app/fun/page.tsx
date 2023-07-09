@@ -1,11 +1,11 @@
 // FUN Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 import MemoryGame from '§/components/MemoryGame'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Fun Stuff`,
+  title: `${Utils.Project} - Fun Stuff`,
   description: 'Small gimmicks and fun stuff.'
 }
 

@@ -1,10 +1,10 @@
 // ACHIEVEMENTS Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Achievements`,
+  title: `${Utils.Project} - Achievements`,
   description: 'Discographic achievements.'
 }
 

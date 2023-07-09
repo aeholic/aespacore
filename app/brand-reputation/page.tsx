@@ -1,10 +1,10 @@
 // BRAND REPUTATION Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Brand Reputation`,
+  title: `${Utils.Project} - Brand Reputation`,
   description: 'Monthly brand reputation ranking.'
 }
 

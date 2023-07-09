@@ -1,10 +1,10 @@
 // FANCAMS Page
 
 import type { Metadata } from 'next'
-import Project from '§/lib/utils'
+import Utils from '§/lib/utils'
 
 export const metadata: Metadata = { 
-  title: `${Project} - Top Fancams`,
+  title: `${Utils.Project} - Top Fancams`,
   description: 'Most viewed fancams of each member.'
 }
 
