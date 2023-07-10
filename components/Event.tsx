@@ -34,6 +34,31 @@ export const hlText = (str: any) => {
   return parse(replacedHTML)
 }
 
+// let testDates: Array<any> = [
+//   { eventDate: '2023 Tue Jul 11', category: 'Other', event: 'Fan Video Call' },
+//   { eventDate: '2023 Mon Jul 13', category: 'Other', event: 'Withmuu Fansign Event' },
+//   { eventDate: '2023 Mon Aug 5', category: 'Festival/Performance', event: 'Knowing Bros EP. 237' },
+//   { eventDate: '2023 Mon Aug 6', category: 'Festival/Performance', event: '32nd Lotte Duty Free Family Concert' },
+//   { eventDate: '2023 Fri Sep 30', category: 'Festival/Performance', event: 'Waterbomb Festival 2023 in Seoul' }
+// ]
+
+const groupByMonth = (event: Array<any>) => {
+  const months: any = {
+    Jan: [], Feb: [], Mar: [],
+    Apr: [], May: [], Jun: [],
+    Jul: [], Aug: [], Sep: [],
+    Oct: [], Nov: [], Dec: []
+  }
+  
+  event.map((data: any, key: number) => {
+    months[event[key].eventDate.match(/(?<=\d+\s\w..\s)\w+/g)![0]].push(data)
+  })
+
+  return months
+}
+
+// groupByMonth(testDates)
+
 const Event = (props: EventComponentProps) : JSX.Element => {
 
   const 
@@ -46,7 +71,6 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       UTCtimezone: 540,
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
-
     [monthDivider, setMonthDivider] = useState<any>(''),
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
     curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss')
@@ -54,17 +78,10 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   const 
     staffAction: Function = (mode: 'edit' | 'delete'): void => {
       console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}.`)
-    },
-    userAction: Function = (reminder: boolean = false): void => {
-      console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
     }
-
-  useEffect(() => {
-    setInterval(() => {
-      time.duration()
-      setCountdown(time.countdown)
-    }, 1000)
-  }, [])
+    // userAction: Function = (reminder: boolean = false): void => {
+    //   console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
+    // }
 
   const getCategoryColor = (cat: string) => {
     return { className: 'category '+(
@@ -79,6 +96,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       cat === 'Comeback Teaser' ? '!bg-teal-700' :
       cat === 'Release' ? '!bg-violet-700' :
       cat === 'Birthday/Anniversary' ? '!bg-rose-500' :
+      cat === 'Solo Activities' ? '!bg-yellow-600' :
       cat === 'Other' || null ? '!bg-sky-900' : ''
     )}
   }
@@ -101,6 +119,13 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     )}</span>
   }
 
+  useEffect(() => {
+    setInterval(() => {
+      time.duration()
+      setCountdown(time.countdown)
+    }, 1000)
+  }, [])
+
   return (
     <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 pointer-events-none ' : '')}}>
 
@@ -108,7 +133,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         <p className="text-center text-xl">
           <FontAwesomeIcon className="fa-edit" title="Edit event" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
           <FontAwesomeIcon className="fa-xmark" title="Delete event" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
-          <FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} />
+          {/* <FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} /> */}
         </p>
       </span>
 

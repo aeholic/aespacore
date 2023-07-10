@@ -101,38 +101,55 @@
 # Event Schedule ToDos
 	[ ] ~user action:
 		[x] toggle alarm
-		[ ] toggle reminder
+	(	[ ] toggle reminder )
 		[ ] view change
 		[ ] toggle specific events/categories
+	[ ] ~admin actions: 
+		[ ] add event
+		[ ] edit event
+		[ ] delete event
 	[x] alarm sound
-	[ ] reminder sound
+( [ ] reminder sound )
 	[ ] auto-remove the 6th commenced event
 	[ ] past events table
-	[ ] tile view
+( [ ] tile view )
 	[ ] responsive
 ( [ ] image ) 
 	[x] status
 	[x] confirmed
 	[x] insert link sources
-	[ ] ~admin actions: 
-		[ ] add event
-		[ ] edit event
-		[ ] delete event
 ( [ ] month dividier )
 ( [ ] framer motions )
 	[x] next event auto update
 	[ ] ~automatic continual events:
 		[ ] auto-add daily
 		[ ] auto-add weekly
+	[x] adding birthdays
 	
------
-
 # Bugs / Chatched Up ToDos
 	[ ] fix fa-symbols
 	[ ] fix initial countdown/remaining values
 	[x] fix EventTimer display
 
 -----
+
+# Memory Game ToDos
+(	[ ] different Decks )
+	[ ] ~leaderboard:
+		[ ] database setup
+		[ ] data display: name, date, playtime
+		[ ] ~user action:
+			[ ] enter name when score in top10
+	(	[ ] "New Record" message )
+( [ ] ~sounds: )
+	(	[ ] flip )
+	(	[ ] matching cards )
+	(	[ ] unmatching cards )
+	(	[ ] game completed )
+	[ ] ~user action:
+		[x] start game
+		[x] restart button
+	(	[ ] screenshot score )
 
 # Birthday/Anniversary
 	01/01 Winter
