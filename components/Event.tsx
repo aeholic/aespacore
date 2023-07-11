@@ -156,6 +156,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     // months.push(dateTime)
     // console.log(months)
     // console.log(months)
+    
     abcRef.current!.textContent = addMonth().join('')
   }, [])
 
@@ -200,7 +201,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   
   const addMonth = () => {
     let rgx: string = eventDateFormat.match(/(?<=\d+\s\w..\s)\w+/g)![0]
-    let nextYear = eventDateFormat.match(/2024/)
+    let year = eventDateFormat.match(/\d{4}/)
     // let nextYear: any = dayjs().utcOffset(540) - dayjs(splitDate[0])
 
 
@@ -228,7 +229,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         monthIdx[rgx] = true
 
         // if (nextYear) {
-        return monthsx[rgx].toUpperCase()+(nextYear ? ' 2024' : '')
+        return monthsx[rgx].toUpperCase()+' '+year
         // }
       } else return '' 
       // if (!monthIdx['Jul'] && rgx === 'Jul') {
