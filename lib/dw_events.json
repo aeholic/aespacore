@@ -1,0 +1,51 @@
+{
+  "daily": [
+    {
+      "id": 1, "eventName": "Spotify Monthly Listeners daily update",
+      "time": "04:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 2, "eventName": "Spotify Daily Streams and Chart update",
+      "time": "19:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 3, "eventName": "MelOn Daily Top100 update",
+      "time": "13:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 4, "eventName": "Genie Top100 Daily update",
+      "time": "12:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 5, "eventName": "VIBE Today Top100 update",
+      "time": "07:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 6, "eventName": "Bugs! Song Chart Daily update",
+      "time": "12:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 7, "eventName": "Apple Music South Korea Daily Top100 update",
+      "time": "04:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    }
+  ]
+}
+
+
+('1fbad0f7-1590-49ad-ae08-89c24168d654', 'YouTube Music', 'weekly', '07:00:00', 'Chart Update', NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
+
+# Continual Events
+Sun, 	00:00		iChart weekly
+              YouTube daily
+Sun, 	07:00		YouTube Music weekly
+            ( iTunes daily )
+              billboard daily
+              billboard weekly
+            ( Music shows weekly )

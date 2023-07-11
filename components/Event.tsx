@@ -8,8 +8,6 @@ import EventTimer, { iEventTimer } from '§/lib/EventTimer'
 import { useTimeString } from '§/hooks/useTimeString'
 import type { EventComponentProps } from '§/types/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import dynamic from 'next/dynamic'
-// dynamic(import('react-tabs').then(mod => mod.Tabs), { ssr: false })
 import { faEdit, faSquareXmark, faClock } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Link from 'next/link'
@@ -36,33 +34,12 @@ export const hlText = (str: any) => {
   return parse(replacedHTML)
 }
 
-// let testDates: Array<any> = [
-//   { eventDate: '2023 Tue Jul 11', category: 'Other', event: 'Fan Video Call' },
-//   { eventDate: '2023 Mon Jul 13', category: 'Other', event: 'Withmuu Fansign Event' },
-//   { eventDate: '2023 Mon Aug 5', category: 'Festival/Performance', event: 'Knowing Bros EP. 237' },
-//   { eventDate: '2023 Mon Aug 6', category: 'Festival/Performance', event: '32nd Lotte Duty Free Family Concert' },
-//   { eventDate: '2023 Fri Sep 30', category: 'Festival/Performance', event: 'Waterbomb Festival 2023 in Seoul' }
-// ]
-
-const months: any = {
-  1: [], 2: [], 3: [],
-  4: [], 5: [], 6: [],
-  7: [], 8: [], 9: [],
-  10: [], 11: [], 12: []
-}
-
-const monthIdx: any = {
+const month: any = {
   Jan: false, Feb: false, Mar: false,
   Apr: false, May: false, Jun: false,
   Jul: false, Aug: false, Sep: false,
   Oct: false, Nov: false, Dec: false
 }
-
-let mnt: boolean = false
-
-// let mnt = 0
-
-// groupByMonth(testDates)
 
 const Event = (props: EventComponentProps) : JSX.Element => {
 
@@ -76,39 +53,17 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       UTCtimezone: 540,
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
-    [monthDivider, setMonthDivider] = useState<any>(''),
     [countdown, setCountdown] = useState<string | undefined>('000d 00h 00m 00s'),
     curDate = dayjs().utcOffset(540).format('YYYY-MM-DD HH:mm:ss'),
-    [month, setMonth] = useState<string>(''),
     abcRef = useRef<HTMLSpanElement | string | null | any>(null)
-    // [mnt, setMnt] = useState<boolean>(false)
 
-  const 
-    staffAction: Function = (mode: 'edit' | 'delete'): void => {
-      console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}.`)
-    }
-    // userAction: Function = (reminder: boolean = false): void => {
-    //   console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
-    // }
-  
-  
-  const groupByMonth = (event: string) => {
-    // if (Array.isArray(event)) {
-    //   event.map((data: any, key: number) => {
-    //     months[event[key].eventDate.match(/(?<=\d+\s\w..\s)\w+/g)![0]].push(data)
-    //   })
-    // } else if (typeof event === 'string') {
-      // console.log(dateTime.match(/\-(.*?)\-/)![1].match(/(?<=0)\d+|10/)![0])
-      months[dateTime.match(/\-(.*?)\-/)![1].match(/(?<=0)\d+|10/)![0]].push(dateTime)
-      // months[6].push('b')
-      // console.log(months)
-
-      // console.log(months)
-    // }
+  const staffAction: Function = (mode: 'edit' | 'delete'): void => {
+    console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}.`)
   }
-
-  // const months:any = []
-
+  // userAction: Function = (reminder: boolean = false): void => {
+  //   console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
+  // }
+  
   const getCategoryColor = (cat: string) => {
     return { className: 'category '+(
       cat === 'Festival/Performance' ? '!bg-pink-700' :
@@ -126,6 +81,8 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       cat === 'Other' || null ? '!bg-sky-900' : ''
     )}
   }
+
+  
 
   const getStatusClass = (stat: ReactNode | number | undefined): JSX.Element =>  {
     return <span 
@@ -149,16 +106,7 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     eventDateFormat: string = dayjs(splitDate[1] === 'null' ? splitDate[0] : dateTime).format('YYYY ddd MMM D'),
     eventTimeFormat: string = splitDate[1] === 'null' ? 'TBA' : dayjs(dateTime).format('HH:mm')+' KST'
 
-  
-
-  useEffect(()=> {
-    // groupByMonth(eventDateFormat)
-    // months.push(dateTime)
-    // console.log(months)
-    // console.log(months)
-    
-    abcRef.current!.textContent = addMonth().join('')
-  }, [])
+  useEffect(()=> { abcRef.current!.textContent = addMonth().join('') }, [])
 
   useEffect(() => {
     setInterval(() => {
@@ -166,56 +114,12 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       setCountdown(time.countdown)
     }, 1000)
   }, [])
-
-  const byMonths = (mnt: string, mntNum: number, JSXcontent: JSX.Element) => {
-    // let abc: any[] = []
-    // for (let i = 0; i < months.length; i++) {
-    //   months[i].map((m:any) => (
-    //     abc.push(<><span>{i} {m}</span><br /></>)
-    //   ))
-    // }
-    // 
-    // return abc
-    // return months['jun'].map((m:any) => (
-    //   <><span>{m}</span><br /></>
-    // ))
-    // 
-    // return [
-    //   <strong>{mnt}<br /></strong>, 
-    //   Object.keys(months).map((key:any) => (
-    //     months[key].map((month:any, idx: number) => (
-    //       <><span key={idx}>{key} ----- {month}</span><br /></>
-    //     ))
-    //   )) 
-    // ]
-    return [
-      <strong>{mnt}<br /></strong>, 
-      months[mntNum].map((month:any, idx: number) => (
-        <>
-          <span key={idx}>{mnt} ----- {month}</span><br />
-          {JSXcontent}
-        </>
-      ))
-    ]
-  }
   
   const addMonth = () => {
-    let rgx: string = eventDateFormat.match(/(?<=\d+\s\w..\s)\w+/g)![0]
-    let year = eventDateFormat.match(/\d{4}/)
-    // let nextYear: any = dayjs().utcOffset(540) - dayjs(splitDate[0])
-
-
-    // if (abc) console.log(abc)
-
-    // if (nextYear > 0) {
-    //   nextYear = 'past'
-    // } else {
-    //   nextYear = 'future'
-    // }
-
-    // console.log(dayjs().utcOffset(540).format('YYYY-MM-DD'))
-    // console.log(splitDate[0])
-    // console.log(dayjs(nextYear).format('YYYY-MM-DD'))
+    const [rgx, year]: [string, string] = [
+      eventDateFormat.match(/(?<=\d+\s\w..\s)\w+/g)![0],
+      eventDateFormat.match(/\d{4}/)![0]
+    ]
     
     const monthsx: any = {
       Jan: 'January', Feb: 'February', Mar: 'March',
@@ -225,35 +129,21 @@ const Event = (props: EventComponentProps) : JSX.Element => {
     }
 
     return Object.keys(monthsx).map((k: any) => {
-      if (!monthIdx[rgx] && rgx === k) {
-        monthIdx[rgx] = true
-
-        // if (nextYear) {
+      if (!month[rgx] && rgx === k) {
+        month[rgx] = true
         return monthsx[rgx].toUpperCase()+' '+year
-        // }
       } else return '' 
-      // if (!monthIdx['Jul'] && rgx === 'Jul') {
-      //   monthIdx[rgx] = true
-      //   return monthsx[rgx].toUpperCase()
-      // }
-      // if (!monthIdx['Aug'] && rgx === 'Aug') {
-      //   monthIdx[rgx] = true
-      //   return monthsx[rgx].toUpperCase()
-      // } 
     })
   }
 
   return (
     <>
-      {/* {byMonths('June', 6)} <br />
-      {byMonths('July', 7)} <br />
-      {byMonths('August', 8)} <br /> */}
-      {<span className="text-xl flex flex-stretch bg-slate-800 px-2 text-pink-500 pt-5" ref={abcRef}></span>}
+      {<span className="text-xl flex flex-stretch bg-slate-800 px-2 text-pink-500 pt-2" ref={abcRef}></span>}
       <div {...{className: 'event '+(dateTime < curDate ? ' brightness-50 pointer-events-none ' : '')}}>
         <span className="event-actions flex justify-center">
           <p className="text-center text-xl">
-            {/* <FontAwesomeIcon className="fa-edit" title="Edit event" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp; */}
-            {/* <FontAwesomeIcon className="fa-xmark" title="Delete event" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp; */}
+            <FontAwesomeIcon className="fa-edit" title="Edit event" titleId="Edit event" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
+            <FontAwesomeIcon className="fa-xmark" title="Delete event" titleId="Delete event" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
             {/* <FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} /> */}
           </p>
         </span>

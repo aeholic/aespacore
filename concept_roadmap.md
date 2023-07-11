@@ -118,7 +118,7 @@
 	[x] status
 	[x] confirmed
 	[x] insert link sources
-( [ ] month dividier )
+  [x] month dividier
 ( [ ] framer motions )
 	[x] next event auto update
 	[ ] ~automatic continual events:
@@ -162,18 +162,51 @@
 -----
 
 # Continual Events
-	MelOn daily
-	Bugs daily
-	FLO daily
-	iChart weekly
-	Genie daily
-	YouTube daily
-	Apple Music daily
-	iTunes daily
-	billboard daily
-	billboard weekly
-	Music shows weekly
+	Sun, 	00:00		iChart weekly
+				13:00		MelOn daily
+				12:00		Genie daily
+				07:00		VIBE chart daily
+				12:00		Bugs daily
+								YouTube daily
+	Sun, 	07:00		YouTube Music weekly
+								Apple Music daily
+							( iTunes daily )
+								billboard daily
+								billboard weekly
+							( Music shows weekly )
+				04:00		Spotify monthly listeners update daily
+				19:00		Spotify streams and chart update daily
 
+CREATE TABLE IF NOT EXISTS `ContinualEvent` (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "eventName" TEXT NOT NULL,
+  "frequency" TEXT NOT NULL,
+  "time" TEXT DEFAULT NULL,
+  "category" TEXT NOT NULL,
+  "link" TEXT DEFAULT NULL,
+  "image" TEXT DEFAULT NULL,
+  "status" INT DEFAULT 1,
+  "reminder" BOOLEAN DEFAULT FALSE,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+
+INSERT INTO ContinualEvent VALUES 
+('1fbad0f7-1590-49ad-ae08-89c24167b676', 'Spotify monthly listeners', 'daily', '04:00:00', 'Chart Update', NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
+('1fbad0f7-1590-49ad-ae08-89c24168d654', 'YouTube Music', 'weekly', '07:00:00', 'Chart Update', NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
+('1fbad0f7-1590-49ad-ae08-89c24167b675', 'VIBE daily chart update', 'daily', '07:00:00', 'Chart Update', NULL, NULL, 1, FALSE, '1685924842916', '1685924842916'),
+('1fbad0f7-1590-49ad-ae08-89c24167b674', 'Spotify daily streams and charts', 'daily', '19:00:00', 'Chart Update', NULL, NULL, 1, FALSE, '1685924842916', '1685924842916');
+# MelOn daily
+# Bugs daily
+# FLO daily
+# iChart weekly
+# Genie daily
+# YouTube daily
+# Apple Music daily
+# iTunes daily
+# billboard daily
+# billboard weekly
+# Music shows weekly
 -----
 
 # Event Status
