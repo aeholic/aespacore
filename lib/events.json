@@ -1,0 +1,57 @@
+{
+  "daily": [
+    {
+      "id": 1, "eventName": "Spotify Monthly Listeners daily",
+      "time": "04:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 2, "eventName": "Spotify Daily Streams and Chart",
+      "time": "19:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 3, "eventName": "MelOn Daily Top100",
+      "time": "13:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 4, "eventName": "Genie Top100 Daily",
+      "time": "12:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 5, "eventName": "VIBE Today Top100",
+      "time": "07:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 6, "eventName": "Bugs! Song Chart Daily",
+      "time": "12:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 7, "eventName": "Apple Music Daily Top100",
+      "time": "04:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    { "planned": "YouTube, iTunes, Billlboard" }
+  ],
+  "weekly": [
+    {
+      "id": 1, "eventName": "iChart Weekly Reset",
+      "time": "00:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 2, "eventName": "YouTube Music South Korea Weekly",
+      "time": "07:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    },
+    {
+      "id": 3, "eventName": "Billboard Charts Weekly",
+      "time": "07:00:00", "category": "Chart Update", "link": null,
+      "image": null, "status": 1, "reminder": false
+    }
+  ]
+}
