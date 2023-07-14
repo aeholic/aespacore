@@ -60,9 +60,6 @@ const Event = (props: EventComponentProps) : JSX.Element => {
   const staffAction: Function = (mode: 'edit' | 'delete'): void => {
     console.log(`The event with the ID ${id} has been ${mode === 'edit' ? 'edited' : 'deleted'}.`)
   }
-  // userAction: Function = (reminder: boolean = false): void => {
-  //   console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
-  // }
   
   const getCategoryColor = (cat: string) => {
     return { className: 'category '+(
@@ -71,14 +68,14 @@ const Event = (props: EventComponentProps) : JSX.Element => {
       cat === 'Variety' ? '!bg-orange-700' :
       cat === 'Chart Update' ? '!bg-green-500' :
       cat === 'Fansign' ? '!bg-purple-700' :
-      cat === 'YouTube' ? '!bg-sky-700' :
+      cat === 'YouTube' ? '!bg-red-700' :
       cat === 'Reality' ? '!bg-red-700' :
       cat === 'Interview/Radio' ? '!bg-lime-700' :
       cat === 'Comeback Teaser' ? '!bg-teal-700' :
-      cat === 'Release' ? '!bg-violet-700' :
+      cat === 'Release/Comeback' ? '!bg-violet-700' :
       cat === 'Birthday/Anniversary' ? '!bg-rose-500' :
       cat === 'Solo Activities' ? '!bg-yellow-600' :
-      cat === 'Other' || null ? '!bg-sky-900' : ''
+      cat === 'Other' || null ? '!bg-sky-700' : ''
     )}
   }
 
@@ -91,14 +88,17 @@ const Event = (props: EventComponentProps) : JSX.Element => {
         stat === 1 ? 'text-teal-600' :
         stat === 2 ? 'text-slate-400' :
         stat === 3 ? 'text-orange-500' :
-        stat === 4 ? 'text-red-500' : ''
+        stat === 4 ? 'text-red-500' :
+        stat === 5 || 6 ? 'text-pink-500' : ''
       )}}
     >{(
       stat === 0 ? 'Rumored' :
       stat === 1 ? 'Scheduled' :
       stat === 2 ? 'Past Event' :
       stat === 3 ? 'Postponed' :
-      stat === 4 ? 'Cancelled' : ''
+      stat === 4 ? 'Cancelled' : 
+      stat === 5 ? 'Daily' :
+      stat === 6 ? 'Weekly' : ''
     )}</span>
   }
 
@@ -144,7 +144,6 @@ const Event = (props: EventComponentProps) : JSX.Element => {
           <p className="text-center text-xl">
             <FontAwesomeIcon className="fa-edit" title="Edit event" titleId="Edit event" icon={faEdit} onClick={()=>staffAction('edit')} />&nbsp;
             <FontAwesomeIcon className="fa-xmark" title="Delete event" titleId="Delete event" icon={faSquareXmark} onClick={()=>staffAction('delete')} />&nbsp;
-            {/* <FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} /> */}
           </p>
         </span>
 

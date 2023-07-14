@@ -270,3 +270,12 @@ const handleCardClick = (match: number) => {
 
 ---
 
+
+userAction: Function = (reminder: boolean = false): void => {
+  console.log(`You will be${!reminder ? 'not' : ''} notified 5 minutes before the event starts.`)
+}
+
+<FontAwesomeIcon className="fa-clock" title="Set reminder 5 Minutes before event starts" icon={faClock} onClick={()=>userAction(true)} />
+
+---
+

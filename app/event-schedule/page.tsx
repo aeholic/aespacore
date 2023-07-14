@@ -25,24 +25,7 @@ const
 
 export default async function EventSchedulePage() : Promise<JSX.Element> {
 
-  const
-    events = await getEvents(),
-
-    returnEvents = () => {
-      return events.map((event: any) => (
-        <Event key={event.id}
-          dateTime={`${event.date} ${event.time}`}
-          eventName={event.eventName}
-          confirmed={event.confirmed}
-          category={event.category}
-          link={event.link}
-          image={event.image}
-          status={event.status}
-          reminder={event.reminder}
-          id={event.id}
-        />
-      ))
-    }
+  const events = await getEvents()
 
   return (
     <section>
@@ -58,7 +41,24 @@ export default async function EventSchedulePage() : Promise<JSX.Element> {
             <span>Countdown</span>
             <span>Info</span>
           </div>
-          {returnEvents()}
+          {
+            events.sort((a: any, b: any) => (
+              a.status === 5 ? '2023-07-17' : a.date) + a.time > ( b.status === 5 ? '2023-07-17' : b.date) + b.time ? 1 : -1
+              ).map((event: any) => {
+                event.date = event.status === 5 ? '2023-07-17' : event.date
+                return <Event key={event.id}
+                  dateTime={`${event.date} ${event.time}`}
+                  eventName={event.eventName}
+                  confirmed={event.confirmed}
+                  category={event.category}
+                  link={event.link}
+                  image={event.image}
+                  status={event.status}
+                  reminder={event.reminder}
+                  id={event.id}
+                />
+            })
+          }
         </div>
       </article>
     </section>
